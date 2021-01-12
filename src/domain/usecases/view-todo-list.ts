@@ -1,15 +1,15 @@
 import { Todo } from '../models/todo';
 
-enum ResultType {
+export enum ViewTodoListResultType {
   ALL,
   ACTIVE,
   COMPLETED
 }
 
-type Filters = {
-  resultType?: ResultType;
+export type ViewTodoListFilters = {
+  resultType?: ViewTodoListResultType;
 };
 
 export interface ViewTodoList {
-  filter(filters: Filters): Promise<Todo[]>;
+  filter(filters: ViewTodoListFilters): Promise<Todo[]>;
 }
