@@ -4,7 +4,9 @@
   "description": "This is a [Frontend Mentor](https://www.frontendmentor.io) todo-list app challenge.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests",
+    "test:watch": "npm test -- --watch",
+    "test:ci": "npm test -- --coverage"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",
     "git-commit-msg-linter": "^3.0.0",
+    "husky": "^4.3.7",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
