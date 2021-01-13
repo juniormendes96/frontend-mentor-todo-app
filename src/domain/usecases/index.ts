@@ -1,1 +1,1 @@
-export * from './view-todo-list';
+export * from './view-todos';

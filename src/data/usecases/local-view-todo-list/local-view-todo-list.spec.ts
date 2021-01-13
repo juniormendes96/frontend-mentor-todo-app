@@ -1,10 +1,10 @@
 import { GetStorageSpy } from '@/data/test';
-import { LocalViewTodoList } from '@/data/usecases';
+import { LocalViewTodos } from '@/data/usecases';
 import { mockTodos } from '@/domain/test';
-import { ViewTodoListStatus } from '@/domain/usecases';
+import { ViewTodosStatus } from '@/domain/usecases';
 
 type SutTypes = {
-  sut: LocalViewTodoList;
+  sut: LocalViewTodos;
   getStorageSpy: GetStorageSpy;
 };
 
@@ -12,7 +12,7 @@ const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy();
   getStorageSpy.value = mockTodos();
 
-  const sut = new LocalViewTodoList(getStorageSpy);
+  const sut = new LocalViewTodos(getStorageSpy);
 
   return {
     sut,
@@ -20,7 +20,7 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('LocalViewTodoList', () => {
+describe('LocalViewTodo', () => {
   test('Should call GetStorage with correct key', async () => {
     const { sut, getStorageSpy } = makeSut();
     await sut.filter();
@@ -42,7 +42,7 @@ describe('LocalViewTodoList', () => {
     getStorageSpy.value = todos;
 
     const resultA = await sut.filter();
-    const resultB = await sut.filter({ status: ViewTodoListStatus.ALL });
+    const resultB = await sut.filter({ status: ViewTodosStatus.ALL });
 
     expect(resultA).toEqual(todos);
     expect(resultB).toEqual(todos);
@@ -51,7 +51,7 @@ describe('LocalViewTodoList', () => {
   test('Should return only active (non-completed) todos', async () => {
     const { sut } = makeSut();
 
-    const result = await sut.filter({ status: ViewTodoListStatus.ACTIVE });
+    const result = await sut.filter({ status: ViewTodosStatus.ACTIVE });
 
     expect(result.filter(todo => todo.completed).length).toBe(0);
     expect(result.filter(todo => !todo.completed).length).toBeGreaterThan(0);
@@ -60,7 +60,7 @@ describe('LocalViewTodoList', () => {
   test('Should return only completed todos', async () => {
     const { sut } = makeSut();
 
-    const result = await sut.filter({ status: ViewTodoListStatus.COMPLETED });
+    const result = await sut.filter({ status: ViewTodosStatus.COMPLETED });
 
     expect(result.filter(todo => !todo.completed).length).toBe(0);
     expect(result.filter(todo => todo.completed).length).toBeGreaterThan(0);

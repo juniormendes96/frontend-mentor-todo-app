@@ -1,17 +1,17 @@
 import { Todo } from '@/domain/models';
-import { ViewTodoList, ViewTodoListFilters, ViewTodoListStatus } from '@/domain/usecases';
+import { ViewTodos, ViewTodosFilters, ViewTodosStatus } from '@/domain/usecases';
 import { GetStorage } from '@/data/protocols/cache';
 
-export class LocalViewTodoList implements ViewTodoList {
+export class LocalViewTodos implements ViewTodos {
   constructor(private readonly getStorage: GetStorage) {}
 
-  async filter(filters?: ViewTodoListFilters): Promise<Todo[]> {
+  async filter(filters?: ViewTodosFilters): Promise<Todo[]> {
     const todos: Todo[] = this.getStorage.get('todos');
 
-    if (filters?.status === ViewTodoListStatus.ACTIVE) {
+    if (filters?.status === ViewTodosStatus.ACTIVE) {
       return todos.filter(todo => !todo.completed);
     }
-    if (filters?.status === ViewTodoListStatus.COMPLETED) {
+    if (filters?.status === ViewTodosStatus.COMPLETED) {
       return todos.filter(todo => todo.completed);
     }
     return this.getStorage.get('todos');
