@@ -1,5 +1,5 @@
-import { GetStorageSpy } from '../test/mock-cache';
-import { LocalViewTodoList } from './local-view-todo-list';
+import { GetStorageSpy } from '@/data/test';
+import { LocalViewTodoList } from '@/data/usecases';
 
 type SutTypes = {
   sut: LocalViewTodoList;
