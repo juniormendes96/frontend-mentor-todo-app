@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 import { GetStorageSpy } from '@/data/test';
 import { LocalViewTodoList } from '@/data/usecases';
 import { mockTodos } from '@/domain/test';
@@ -12,6 +10,8 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy();
+  getStorageSpy.value = mockTodos();
+
   const sut = new LocalViewTodoList(getStorageSpy);
 
   return {
@@ -23,14 +23,15 @@ const makeSut = (): SutTypes => {
 describe('LocalViewTodoList', () => {
   test('Should call GetStorage with correct key', async () => {
     const { sut, getStorageSpy } = makeSut();
-
     await sut.filter();
+
     expect(getStorageSpy.key).toBe('todos');
   });
 
   test('Should return correct value from GetStorage', async () => {
     const { sut, getStorageSpy } = makeSut();
     const result = await sut.filter();
+
     expect(result).toEqual(getStorageSpy.value);
   });
 
@@ -48,9 +49,7 @@ describe('LocalViewTodoList', () => {
   });
 
   test('Should return only active (non-completed) todos', async () => {
-    const { sut, getStorageSpy } = makeSut();
-
-    getStorageSpy.value = mockTodos();
+    const { sut } = makeSut();
 
     const result = await sut.filter({ status: ViewTodoListStatus.ACTIVE });
 
@@ -59,9 +58,7 @@ describe('LocalViewTodoList', () => {
   });
 
   test('Should return only completed todos', async () => {
-    const { sut, getStorageSpy } = makeSut();
-
-    getStorageSpy.value = mockTodos();
+    const { sut } = makeSut();
 
     const result = await sut.filter({ status: ViewTodoListStatus.COMPLETED });
 
