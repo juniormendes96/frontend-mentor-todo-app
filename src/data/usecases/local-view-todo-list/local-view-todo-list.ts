@@ -11,6 +11,9 @@ export class LocalViewTodoList implements ViewTodoList {
     if (filters?.status === ViewTodoListStatus.ACTIVE) {
       return todos.filter(todo => !todo.completed);
     }
+    if (filters?.status === ViewTodoListStatus.COMPLETED) {
+      return todos.filter(todo => todo.completed);
+    }
     return this.getStorage.get('todos');
   }
 }
