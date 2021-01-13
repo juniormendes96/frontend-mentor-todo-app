@@ -1,13 +1,13 @@
 import { Todo } from '@/domain/models';
 
-export enum ViewTodoListResultType {
+export enum ViewTodoListStatus {
   ALL,
   ACTIVE,
   COMPLETED
 }
 
 export type ViewTodoListFilters = {
-  resultType?: ViewTodoListResultType;
+  status?: ViewTodoListStatus;
 };
 
 export interface ViewTodoList {
