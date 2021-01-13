@@ -1,6 +1,6 @@
 import { Todo } from '../models';
 
-type CreateTodoParams = {
+export type CreateTodoParams = {
   description: string;
   completed: boolean;
 };
