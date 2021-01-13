@@ -66,5 +66,14 @@ describe('LocalViewTodos', () => {
       expect(result.filter(todo => !todo.completed).length).toBe(0);
       expect(result.filter(todo => todo.completed).length).toBeGreaterThan(0);
     });
+
+    test('Should return empty array if GetStorage value is not defined', async () => {
+      const { sut, getStorageSpy } = makeSut();
+      getStorageSpy.value = null;
+
+      const result = await sut.filter();
+
+      expect(result).toEqual([]);
+    });
   });
 });
