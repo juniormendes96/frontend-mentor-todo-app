@@ -1,5 +1,9 @@
+import faker from 'faker';
+
 import { GetStorageSpy } from '@/data/test';
 import { LocalViewTodoList } from '@/data/usecases';
+import { mockTodos } from '@/domain/test';
+import { ViewTodoListStatus } from '@/domain/usecases';
 
 type SutTypes = {
   sut: LocalViewTodoList;
@@ -26,7 +30,20 @@ describe('LocalViewTodoList', () => {
 
   test('Should return correct value from GetStorage', async () => {
     const { sut, getStorageSpy } = makeSut();
-    const value = await sut.filter();
-    expect(value).toEqual(getStorageSpy.value);
+    const result = await sut.filter();
+    expect(result).toEqual(getStorageSpy.value);
+  });
+
+  test('Should return all todos', async () => {
+    const { sut, getStorageSpy } = makeSut();
+
+    const todos = mockTodos();
+    getStorageSpy.value = todos;
+
+    const resultA = await sut.filter();
+    const resultB = await sut.filter({ status: ViewTodoListStatus.ALL });
+
+    expect(resultA).toEqual(todos);
+    expect(resultB).toEqual(todos);
   });
 });
