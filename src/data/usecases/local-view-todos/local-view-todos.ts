@@ -14,6 +14,6 @@ export class LocalViewTodos implements ViewTodos {
     if (filters?.status === ViewTodosStatus.COMPLETED) {
       return todos.filter(todo => todo.completed);
     }
-    return this.getStorage.get('todos');
+    return todos;
   }
 }
