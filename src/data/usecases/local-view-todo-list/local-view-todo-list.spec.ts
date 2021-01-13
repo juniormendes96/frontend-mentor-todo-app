@@ -57,4 +57,15 @@ describe('LocalViewTodoList', () => {
     expect(result.filter(todo => todo.completed).length).toBe(0);
     expect(result.filter(todo => !todo.completed).length).toBeGreaterThan(0);
   });
+
+  test('Should return only completed todos', async () => {
+    const { sut, getStorageSpy } = makeSut();
+
+    getStorageSpy.value = mockTodos();
+
+    const result = await sut.filter({ status: ViewTodoListStatus.COMPLETED });
+
+    expect(result.filter(todo => !todo.completed).length).toBe(0);
+    expect(result.filter(todo => todo.completed).length).toBeGreaterThan(0);
+  });
 });
