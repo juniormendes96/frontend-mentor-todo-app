@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { GetStorage } from '@/data/protocols/cache';
+import { GetStorage, SetStorage } from '@/data/protocols/cache';
 
 export class GetStorageSpy implements GetStorage {
   key: string;
@@ -8,5 +8,15 @@ export class GetStorageSpy implements GetStorage {
   get(key: string): any {
     this.key = key;
     return this.value;
+  }
+}
+
+export class SetStorageSpy implements SetStorage {
+  key: string;
+  value: any = faker.random.objectElement();
+
+  set(key: string, value: any): void {
+    this.key = key;
+    this.value = value;
   }
 }

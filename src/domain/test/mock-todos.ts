@@ -1,5 +1,12 @@
 import faker from 'faker';
+
+import { CreateTodoParams } from '@/domain/usecases';
 import { Todo } from '@/domain/models';
+
+export const mockCreateTodoParams = (): CreateTodoParams => ({
+  description: faker.random.words(),
+  completed: faker.random.boolean()
+});
 
 export const mockTodos = (): Todo[] => [
   {
