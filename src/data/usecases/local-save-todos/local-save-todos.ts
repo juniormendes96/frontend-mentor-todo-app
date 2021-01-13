@@ -6,8 +6,15 @@ export class LocalSaveTodos implements SaveTodos {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
   create(params: CreateTodoParams): Promise<Todo> {
+    const todo: Todo = {
+      id: 1,
+      description: params.description,
+      completed: params.completed
+    };
+
     this.getStorage.get('todos');
-    this.setStorage.set('todos', null);
-    return null;
+    this.setStorage.set('todos', [todo]);
+
+    return Promise.resolve(todo);
   }
 }
