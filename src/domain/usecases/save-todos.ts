@@ -6,5 +6,5 @@ type CreateTodoParams = {
 };
 
 export interface SaveTodos {
-  create(params: CreateTodoParams): Todo;
+  create(params: CreateTodoParams): Promise<Todo>;
 }
