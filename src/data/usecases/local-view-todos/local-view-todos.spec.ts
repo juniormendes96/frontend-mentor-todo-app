@@ -20,7 +20,7 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('LocalViewTodo', () => {
+describe('LocalViewTodos', () => {
   test('Should call GetStorage with correct key', async () => {
     const { sut, getStorageSpy } = makeSut();
     await sut.filter();

@@ -1,1 +1,1 @@
-export * from './local-view-todo-list/local-view-todo-list';
+export * from './local-view-todos/local-view-todos';
