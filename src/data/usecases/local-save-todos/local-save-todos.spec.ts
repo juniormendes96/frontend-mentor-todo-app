@@ -30,5 +30,20 @@ describe('LocalSaveTodos', () => {
       expect(getStorageSpy.key).toBe('todos');
       expect(setStorageSpy.key).toBe('todos');
     });
+
+    test('Should save todo', async () => {
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
+
+      getStorageSpy.value = undefined;
+
+      const todoParams = mockCreateTodoParams();
+      const todo = await sut.create(todoParams);
+
+      expect(todo.id).toBe(1);
+      expect(todo.description).toBe(todoParams.description);
+      expect(todo.completed).toBe(todoParams.completed);
+
+      expect(setStorageSpy.value).toEqual([todo]);
+    });
   });
 });
