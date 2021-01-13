@@ -21,48 +21,50 @@ const makeSut = (): SutTypes => {
 };
 
 describe('LocalViewTodos', () => {
-  test('Should call GetStorage with correct key', async () => {
-    const { sut, getStorageSpy } = makeSut();
-    await sut.filter();
+  describe('filter', () => {
+    test('Should call GetStorage with correct key', async () => {
+      const { sut, getStorageSpy } = makeSut();
+      await sut.filter();
 
-    expect(getStorageSpy.key).toBe('todos');
-  });
+      expect(getStorageSpy.key).toBe('todos');
+    });
 
-  test('Should return correct value from GetStorage', async () => {
-    const { sut, getStorageSpy } = makeSut();
-    const result = await sut.filter();
+    test('Should return correct value from GetStorage', async () => {
+      const { sut, getStorageSpy } = makeSut();
+      const result = await sut.filter();
 
-    expect(result).toEqual(getStorageSpy.value);
-  });
+      expect(result).toEqual(getStorageSpy.value);
+    });
 
-  test('Should return all todos', async () => {
-    const { sut, getStorageSpy } = makeSut();
+    test('Should return all todos', async () => {
+      const { sut, getStorageSpy } = makeSut();
 
-    const todos = mockTodos();
-    getStorageSpy.value = todos;
+      const todos = mockTodos();
+      getStorageSpy.value = todos;
 
-    const resultA = await sut.filter();
-    const resultB = await sut.filter({ status: ViewTodosStatus.ALL });
+      const resultA = await sut.filter();
+      const resultB = await sut.filter({ status: ViewTodosStatus.ALL });
 
-    expect(resultA).toEqual(todos);
-    expect(resultB).toEqual(todos);
-  });
+      expect(resultA).toEqual(todos);
+      expect(resultB).toEqual(todos);
+    });
 
-  test('Should return only active (non-completed) todos', async () => {
-    const { sut } = makeSut();
+    test('Should return only active (non-completed) todos', async () => {
+      const { sut } = makeSut();
 
-    const result = await sut.filter({ status: ViewTodosStatus.ACTIVE });
+      const result = await sut.filter({ status: ViewTodosStatus.ACTIVE });
 
-    expect(result.filter(todo => todo.completed).length).toBe(0);
-    expect(result.filter(todo => !todo.completed).length).toBeGreaterThan(0);
-  });
+      expect(result.filter(todo => todo.completed).length).toBe(0);
+      expect(result.filter(todo => !todo.completed).length).toBeGreaterThan(0);
+    });
 
-  test('Should return only completed todos', async () => {
-    const { sut } = makeSut();
+    test('Should return only completed todos', async () => {
+      const { sut } = makeSut();
 
-    const result = await sut.filter({ status: ViewTodosStatus.COMPLETED });
+      const result = await sut.filter({ status: ViewTodosStatus.COMPLETED });
 
-    expect(result.filter(todo => !todo.completed).length).toBe(0);
-    expect(result.filter(todo => todo.completed).length).toBeGreaterThan(0);
+      expect(result.filter(todo => !todo.completed).length).toBe(0);
+      expect(result.filter(todo => todo.completed).length).toBeGreaterThan(0);
+    });
   });
 });
