@@ -2,7 +2,7 @@ import faker from 'faker';
 import { GetStorage } from '@/data/protocols/cache';
 
 export class GetStorageSpy implements GetStorage {
-  key: string = '';
+  key: string;
   value: any = faker.random.objectElement();
 
   get(key: string): any {
