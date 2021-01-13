@@ -23,4 +23,10 @@ describe('LocalViewTodoList', () => {
     await sut.filter();
     expect(getStorageSpy.key).toBe('todos');
   });
+
+  test('Should return correct value from GetStorage', async () => {
+    const { sut, getStorageSpy } = makeSut();
+    const value = await sut.filter();
+    expect(value).toEqual(getStorageSpy.value);
+  });
 });
