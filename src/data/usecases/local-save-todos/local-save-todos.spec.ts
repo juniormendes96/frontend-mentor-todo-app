@@ -98,5 +98,19 @@ describe('LocalSaveTodos', () => {
       expect(toggledTodo.completed).toBe(true);
       expect(getStorageSpy.value).toEqual([...todos, toggledTodo]);
     });
+
+    test('Should mark todo as uncompleted', async () => {
+      const { sut, getStorageSpy } = makeSut();
+
+      const todos = mockTodos();
+      const todo = { ...mockTodo(), completed: true };
+
+      getStorageSpy.value = [...todos, todo];
+
+      const toggledTodo = await sut.toggle(todo.id);
+
+      expect(toggledTodo.completed).toBe(false);
+      expect(getStorageSpy.value).toEqual([...todos, toggledTodo]);
+    });
   });
 });
