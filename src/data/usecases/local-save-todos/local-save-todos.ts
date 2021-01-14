@@ -6,13 +6,16 @@ export class LocalSaveTodos implements SaveTodos {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
   toggle(id: number): Promise<Todo> {
-    this.getStorage.get('todos');
-    this.setStorage.set('todos', null);
-    return null;
+    const todos = this.getTodosFromStorage();
+    const todo = todos.find(todo => todo.id === id);
+    todo.completed = !todo.completed;
+
+    this.setStorage.set('todos', todos);
+    return Promise.resolve(todo);
   }
 
   create(params: CreateTodoParams): Promise<Todo> {
-    const todos: Todo[] = this.getStorage.get('todos') || [];
+    const todos: Todo[] = this.getTodosFromStorage();
 
     const todo: Todo = {
       id: this.getNextId(todos),
@@ -30,5 +33,9 @@ export class LocalSaveTodos implements SaveTodos {
     }
 
     return Math.max(...todos.map(todo => todo.id)) + 1;
+  }
+
+  private getTodosFromStorage(): Todo[] {
+    return this.getStorage.get('todos') || [];
   }
 }
