@@ -43,4 +43,15 @@ describe('LocalRemoveTodos', () => {
       expect((setStorageSpy.value as Todo[]).filter(todo => todo.id === 1).length).toBe(0);
     });
   });
+
+  describe('clearCompleted', () => {
+    test('Should call GetStorage and SetStorage with correct key', async () => {
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
+
+      await sut.clearCompleted();
+
+      expect(getStorageSpy.key).toBe('todos');
+      expect(setStorageSpy.key).toBe('todos');
+    });
+  });
 });
