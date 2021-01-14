@@ -10,4 +10,8 @@ export class LocalRemoveTodos implements RemoveTodos {
     const filteredTodos = todos.filter(todo => todo.id !== id);
     this.setStorage.set('todos', filteredTodos);
   }
+
+  clearCompleted(): Todo[] {
+    return [];
+  }
 }
