@@ -53,5 +53,17 @@ describe('LocalRemoveTodos', () => {
       expect(getStorageSpy.key).toBe('todos');
       expect(setStorageSpy.key).toBe('todos');
     });
+
+    test('Should clear all completed todos', async () => {
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
+
+      getStorageSpy.value = mockTodos();
+
+      const clearedTodos = await sut.clearCompleted();
+
+      expect(clearedTodos.length).toBe(2);
+      expect(clearedTodos.filter(todo => todo.completed).length).toBe(0);
+      expect(setStorageSpy.value).toEqual(clearedTodos);
+    });
   });
 });
