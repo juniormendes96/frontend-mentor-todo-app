@@ -8,6 +8,12 @@ export const mockCreateTodoParams = (): CreateTodoParams => ({
   completed: faker.random.boolean()
 });
 
+export const mockTodo = (): Todo => ({
+  id: faker.random.number(),
+  description: faker.random.words(),
+  completed: faker.random.boolean()
+});
+
 export const mockTodos = (): Todo[] => [
   {
     id: 1,
