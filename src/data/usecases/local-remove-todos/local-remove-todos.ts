@@ -12,6 +12,8 @@ export class LocalRemoveTodos implements RemoveTodos {
   }
 
   clearCompleted(): Todo[] {
+    this.getStorage.get('todos');
+    this.setStorage.set('todos', null);
     return [];
   }
 }
