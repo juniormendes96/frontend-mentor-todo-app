@@ -4,7 +4,8 @@
   "description": "This is a [Frontend Mentor](https://www.frontendmentor.io) todo-list app challenge.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "dev": "webpack serve --config webpack.dev.js --port 3000",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
     "test:ci": "npm test -- --coverage"
   },
@@ -25,6 +26,7 @@
     "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "clean-webpack-plugin": "^3.0.0",
     "faker": "^5.1.0",
     "git-commit-msg-linter": "^3.0.0",
     "husky": "^4.3.7",
