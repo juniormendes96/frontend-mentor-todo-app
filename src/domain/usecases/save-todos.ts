@@ -7,4 +7,5 @@ export type CreateTodoParams = {
 
 export interface SaveTodos {
   create(params: CreateTodoParams): Promise<Todo>;
+  toggle(id: number): Promise<Todo>;
 }
