@@ -6,15 +6,23 @@ export class LocalSaveTodos implements SaveTodos {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
   create(params: CreateTodoParams): Promise<Todo> {
+    const todos: Todo[] = this.getStorage.get('todos') || [];
+
     const todo: Todo = {
-      id: 1,
+      id: this.getNextId(todos),
       description: params.description,
       completed: params.completed
     };
 
-    this.getStorage.get('todos');
-    this.setStorage.set('todos', [todo]);
-
+    this.setStorage.set('todos', [todo, ...todos]);
     return Promise.resolve(todo);
+  }
+
+  private getNextId(todos: Todo[]): number {
+    if (!todos.length) {
+      return 1;
+    }
+
+    return Math.max(...todos.map(todo => todo.id)) + 1;
   }
 }
