@@ -13,8 +13,6 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy();
-  getStorageSpy.value = [];
-
   const setStorageSpy = new SetStorageSpy();
   const sut = new LocalSaveTodos(getStorageSpy, setStorageSpy);
 

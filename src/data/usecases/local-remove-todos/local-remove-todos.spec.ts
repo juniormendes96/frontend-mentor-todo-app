@@ -1,5 +1,7 @@
+import { Todo } from './../../../domain/models/todo';
 import { GetStorageSpy, SetStorageSpy } from '@/data/test';
 import { LocalRemoveTodos } from '@/data/usecases';
+import { mockTodos } from '@/domain/test';
 
 type SutTypes = {
   sut: LocalRemoveTodos;
@@ -28,6 +30,17 @@ describe('LocalRemoveTodos', () => {
 
       expect(getStorageSpy.key).toBe('todos');
       expect(setStorageSpy.key).toBe('todos');
+    });
+
+    test('Should remove todo', async () => {
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
+
+      getStorageSpy.value = mockTodos();
+
+      await sut.remove(1);
+
+      expect((setStorageSpy.value as Todo[]).length).toBe(3);
+      expect((setStorageSpy.value as Todo[]).filter(todo => todo.id === 1).length).toBe(0);
     });
   });
 });
