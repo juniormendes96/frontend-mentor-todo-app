@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 import { mockCreateTodoParams, mockTodo, mockTodos } from '@/domain/test';
 import { GetStorageSpy, SetStorageSpy } from '@/data/test';
 import { LocalSaveTodos } from '@/data/usecases';
@@ -67,6 +69,17 @@ describe('LocalSaveTodos', () => {
       expect(todoB.id).toBe(1000);
       expect(setStorageSpy.value.length).toBe(6);
       expect(setStorageSpy.value[0]).toEqual(todoB);
+    });
+  });
+
+  describe('toggle', () => {
+    test('Should call SetStorage and GetStorage with correct key', async () => {
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
+
+      await sut.toggle(faker.random.number());
+
+      expect(getStorageSpy.key).toBe('todos');
+      expect(setStorageSpy.key).toBe('todos');
     });
   });
 });
