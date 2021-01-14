@@ -76,10 +76,27 @@ describe('LocalSaveTodos', () => {
     test('Should call SetStorage and GetStorage with correct key', async () => {
       const { sut, getStorageSpy, setStorageSpy } = makeSut();
 
-      await sut.toggle(faker.random.number());
+      const todo = mockTodo();
+      getStorageSpy.value = [todo];
+
+      await sut.toggle(todo.id);
 
       expect(getStorageSpy.key).toBe('todos');
       expect(setStorageSpy.key).toBe('todos');
+    });
+
+    test('Should mark todo as completed', async () => {
+      const { sut, getStorageSpy } = makeSut();
+
+      const todos = mockTodos();
+      const todo = { ...mockTodo(), completed: false };
+
+      getStorageSpy.value = [...todos, todo];
+
+      const toggledTodo = await sut.toggle(todo.id);
+
+      expect(toggledTodo.completed).toBe(true);
+      expect(getStorageSpy.value).toEqual([...todos, toggledTodo]);
     });
   });
 });
