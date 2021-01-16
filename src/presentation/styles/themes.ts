@@ -13,25 +13,25 @@ type Theme = {
 } & ThemeShared;
 
 const shared: ThemeShared = {
-  textActive: 'hsl(220, 98%, 61%)',
-  checkBackgroundPrimary: 'hsl(192, 100%, 67%)',
-  checkBackgroundSecondary: 'hsl(280, 87%, 65%)'
+  textActive: '	#3a7bfd',
+  checkBackgroundPrimary: '#57ddff',
+  checkBackgroundSecondary: '#c058f3'
 };
 
 export const lightTheme: Theme = {
   ...shared,
-  body: 'hsl(236, 33%, 92%)',
-  mainBackground: 'hsl(0, 0%, 98%)',
-  text: 'hsl(236, 9%, 61%)',
-  textDisabled: 'hsl(233, 11%, 84%)',
-  textHover: 'hsl(235, 19%, 35%)'
+  body: '#e4e5f1',
+  mainBackground: '#fafafa',
+  text: '#9394a5',
+  textDisabled: '#d2d3db',
+  textHover: '#484b6a'
 };
 
 export const darkTheme: Theme = {
   ...shared,
-  body: 'hsl(235, 21%, 11%)',
-  mainBackground: 'hsl(235, 24%, 19%)',
-  text: 'hsl(234, 39%, 85%)',
-  textDisabled: 'hsl(234, 11%, 52%)',
-  textHover: 'hsl(236, 33%, 92%)'
+  body: '#161722',
+  mainBackground: '#25273c',
+  text: '#cacde8',
+  textDisabled: '#777a92',
+  textHover: '#e4e5f1'
 };

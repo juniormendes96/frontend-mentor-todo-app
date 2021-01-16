@@ -1,15 +1,18 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { HomeContainer } from './home-styles';
-import { lightTheme } from '@/presentation/styles/themes';
+import { Body, BackgroundImage } from './home-styles';
+import { darkTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
+
+import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
 
 const Home: React.FC = () => {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
-      <HomeContainer>Hello world</HomeContainer>
+      <BackgroundImage src={backgroundDesktopDark} />
+      <Body />
     </ThemeProvider>
   );
 };
