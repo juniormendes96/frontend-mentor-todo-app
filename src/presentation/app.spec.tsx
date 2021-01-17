@@ -9,7 +9,7 @@ const makeSut = (viewTodosSpy = new ViewTodosSpy()): void => {
 };
 
 describe('App', () => {
-  test('Should call ViewTodos and render all items', async () => {
+  test('Should call ViewTodos', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     makeSut(viewTodosSpy);
 
@@ -17,8 +17,17 @@ describe('App', () => {
 
     await waitFor(() => list);
 
-    expect(list.children).toHaveLength(4);
     expect(viewTodosSpy.callsCount).toBe(1);
+  });
+
+  test('Should render all items', async () => {
+    makeSut();
+
+    const list = screen.getByTestId('list');
+
+    await waitFor(() => list);
+
+    expect(list.children).toHaveLength(4);
     expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
   });
 });
