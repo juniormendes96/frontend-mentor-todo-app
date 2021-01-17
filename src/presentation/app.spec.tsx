@@ -36,6 +36,21 @@ describe('App', () => {
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ACTIVE });
   });
 
+  test('Should call ViewTodos with correct filters on "completed" button click', async () => {
+    const viewTodosSpy = new ViewTodosSpy();
+    makeSut(viewTodosSpy);
+
+    const li = screen.getByTestId('completed');
+
+    await waitFor(() => li);
+
+    li.click();
+
+    await waitFor(() => screen.getByTestId('list'));
+
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
+  });
+
   test('Should render all items', async () => {
     makeSut();
 
