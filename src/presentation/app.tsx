@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ListInput, ListItem } from '@/presentation/components';
-import { Body, BackgroundImage, ListContainer, List, ListFooter, TodoStatusOption } from './app-styles';
+import { Body, BackgroundImage, AppContainer, ListContainer, ListFooter, TodoStatusOption, NoContent } from './app-styles';
 import { darkTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
@@ -23,27 +23,39 @@ type Props = {
   removeTodos: RemoveTodos;
 };
 
-const App: React.FC<Props> = () => {
+type State = {
+  todos: Todo[];
+};
+
+const App: React.FC<Props> = ({ viewTodos }: Props) => {
+  const [state, setState] = useState<State>({
+    todos: []
+  });
+
+  useEffect(() => {
+    viewTodos.filter({}).then(todos => {
+      setState(old => ({ ...old, todos }));
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
       <BackgroundImage src={backgroundDesktopDark} alt="Background image" />
       <Body />
 
-      <ListContainer>
+      <AppContainer>
         <header>
           <h1>TODO</h1>
           <img src={iconSun} alt="Toggle dark mode" />
         </header>
         <ListInput placeholder="Create a new todo..." />
-        <List>
-          <ul>
-            <ListItem todo={todo} />
-            <ListItem todo={todo} />
-            <ListItem todo={todo} />
-            <ListItem todo={todo} />
-            <ListItem todo={todo} />
-            <ListItem todo={todo} />
+        <ListContainer>
+          {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
+          <ul data-testid="list">
+            {state.todos.map(todo => (
+              <ListItem key={todo.id} todo={todo} />
+            ))}
           </ul>
           <ListFooter>
             <span>5 items left</span>
@@ -54,8 +66,8 @@ const App: React.FC<Props> = () => {
             </ul>
             <a>Clear completed</a>
           </ListFooter>
-        </List>
-      </ListContainer>
+        </ListContainer>
+      </AppContainer>
     </ThemeProvider>
   );
 };
