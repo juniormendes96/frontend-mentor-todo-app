@@ -9,6 +9,7 @@ import { GlobalStyles } from '@/presentation/styles/global-styles';
 import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
 import iconSun from '@/presentation/assets/icons/icon-sun.svg';
 import { Todo } from '@/domain/models';
+import { RemoveTodos, SaveTodos, ViewTodos } from '@/domain/usecases';
 
 const todo: Todo = {
   id: 1,
@@ -16,7 +17,13 @@ const todo: Todo = {
   description: 'Complete online JavaScript course'
 };
 
-const App: React.FC = () => {
+type Props = {
+  viewTodos: ViewTodos;
+  saveTodos: SaveTodos;
+  removeTodos: RemoveTodos;
+};
+
+const App: React.FC<Props> = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
