@@ -9,7 +9,7 @@ import { GlobalStyles } from '@/presentation/styles/global-styles';
 import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
 import iconSun from '@/presentation/assets/icons/icon-sun.svg';
 import { Todo } from '@/domain/models';
-import { RemoveTodos, SaveTodos, ViewTodos } from '@/domain/usecases';
+import { RemoveTodos, SaveTodos, ViewTodos, ViewTodosFilters, ViewTodosStatus } from '@/domain/usecases';
 
 const todo: Todo = {
   id: 1,
@@ -33,10 +33,13 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
   });
 
   useEffect(() => {
-    viewTodos.filter({}).then(todos => {
-      setState(old => ({ ...old, todos }));
-    });
+    filterTodos({});
   }, []);
+
+  const filterTodos = async (filters: ViewTodosFilters): Promise<void> => {
+    const todos = await viewTodos.filter(filters);
+    setState(old => ({ ...old, todos }));
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -61,7 +64,9 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
             <span>5 items left</span>
             <ul>
               <TodoStatusOption active>All</TodoStatusOption>
-              <TodoStatusOption>Active</TodoStatusOption>
+              <TodoStatusOption data-testid="active" onClick={() => filterTodos({ status: ViewTodosStatus.ACTIVE })}>
+                Active
+              </TodoStatusOption>
               <TodoStatusOption>Completed</TodoStatusOption>
             </ul>
             <a>Clear completed</a>
