@@ -46,10 +46,6 @@ export const TodoListContainer = styled.div`
       height: 3rem;
     }
   }
-
-  & > li {
-    border-radius: 0.6rem;
-  }
 `;
 
 export const TodoList = styled.div`

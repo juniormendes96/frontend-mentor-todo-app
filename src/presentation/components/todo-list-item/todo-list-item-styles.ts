@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type TodoListItemDescription = {
+  disabled?: boolean;
+};
+
 export const TodoListItemContainer = styled.li`
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -9,23 +13,18 @@ export const TodoListItemContainer = styled.li`
   background: ${({ theme }) => theme.mainBackground};
   padding: 0 2.5rem;
 
-  input {
-    outline: none;
-    border: none;
-    font-size: 2.2rem;
-    color: ${({ theme }) => theme.text};
-    background: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 400;
-
-    &:disabled {
-      text-decoration: line-through;
-      color: ${({ theme }) => theme.textDisabled};
-    }
-  }
-
   img {
     cursor: pointer;
   }
+`;
+
+export const TodoListItemDescription = styled.label<TodoListItemDescription>`
+  font-size: 2.2rem;
+  color: ${({ theme, disabled }) => (disabled ? theme.textDisabled : theme.text)};
+  text-decoration: ${({ disabled }) => (disabled ? 'line-through' : 'none')};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 400;
+  cursor: pointer;
 `;
