@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TodoListInputContainer = styled.div`
+export const ListInputContainer = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 2rem;

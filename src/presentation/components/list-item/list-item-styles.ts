@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-type TodoListItemDescription = {
+type ListItemDescription = {
   disabled?: boolean;
 };
 
-export const TodoListItemContainer = styled.li`
+export const ListItemContainer = styled.li`
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 2rem;
@@ -18,7 +18,7 @@ export const TodoListItemContainer = styled.li`
   }
 `;
 
-export const TodoListItemDescription = styled.label<TodoListItemDescription>`
+export const ListItemDescription = styled.label<ListItemDescription>`
   font-size: 2.2rem;
   color: ${({ theme, disabled }) => (disabled ? theme.textDisabled : theme.text)};
   text-decoration: ${({ disabled }) => (disabled ? 'line-through' : 'none')};

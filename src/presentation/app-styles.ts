@@ -11,7 +11,7 @@ export const BackgroundImage = styled.img`
   width: 100%;
 `;
 
-export const TodoListContainer = styled.div`
+export const ListContainer = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2.5rem;
@@ -48,7 +48,7 @@ export const TodoListContainer = styled.div`
   }
 `;
 
-export const TodoList = styled.div`
+export const List = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   background: ${({ theme }) => theme.mainBackground};
@@ -85,7 +85,7 @@ export const TodoList = styled.div`
   }
 `;
 
-export const TodoListFooter = styled.footer`
+export const ListFooter = styled.footer`
   height: 7rem;
   border-top: 1px solid ${({ theme }) => theme.textDisabled};
   display: flex;

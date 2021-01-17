@@ -1,8 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { TodoListInput, TodoListItem } from '@/presentation/components';
-import { Body, BackgroundImage, TodoListContainer, TodoList, TodoListFooter, TodoStatusOption } from './app-styles';
+import { ListInput, ListItem } from '@/presentation/components';
+import { Body, BackgroundImage, ListContainer, List, ListFooter, TodoStatusOption } from './app-styles';
 import { darkTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
@@ -23,22 +23,22 @@ const App: React.FC = () => {
       <BackgroundImage src={backgroundDesktopDark} alt="Background image" />
       <Body />
 
-      <TodoListContainer>
+      <ListContainer>
         <header>
           <h1>TODO</h1>
           <img src={iconSun} alt="Toggle dark mode" />
         </header>
-        <TodoListInput />
-        <TodoList>
+        <ListInput placeholder="Create a new todo..." />
+        <List>
           <ul>
-            <TodoListItem todo={todo} />
-            <TodoListItem todo={todo} />
-            <TodoListItem todo={todo} />
-            <TodoListItem todo={todo} />
-            <TodoListItem todo={todo} />
-            <TodoListItem todo={todo} />
+            <ListItem todo={todo} />
+            <ListItem todo={todo} />
+            <ListItem todo={todo} />
+            <ListItem todo={todo} />
+            <ListItem todo={todo} />
+            <ListItem todo={todo} />
           </ul>
-          <TodoListFooter>
+          <ListFooter>
             <span>5 items left</span>
             <ul>
               <TodoStatusOption active>All</TodoStatusOption>
@@ -46,9 +46,9 @@ const App: React.FC = () => {
               <TodoStatusOption>Completed</TodoStatusOption>
             </ul>
             <a>Clear completed</a>
-          </TodoListFooter>
-        </TodoList>
-      </TodoListContainer>
+          </ListFooter>
+        </List>
+      </ListContainer>
     </ThemeProvider>
   );
 };
