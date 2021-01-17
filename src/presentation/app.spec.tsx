@@ -30,4 +30,18 @@ describe('App', () => {
     expect(list.children).toHaveLength(4);
     expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
   });
+
+  test('Should render noContent if there are no todos created yet', async () => {
+    const viewTodosSpy = new ViewTodosSpy();
+    viewTodosSpy.todos = [];
+
+    makeSut(viewTodosSpy);
+
+    const list = screen.getByTestId('list');
+
+    await waitFor(() => list);
+
+    expect(list.children).toHaveLength(0);
+    expect(screen.queryByTestId('noContent')).toBeInTheDocument();
+  });
 });
