@@ -11,7 +11,7 @@ export const BackgroundImage = styled.img`
   width: 100%;
 `;
 
-export const ListContainer = styled.div`
+export const AppContainer = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2.5rem;
@@ -48,13 +48,14 @@ export const ListContainer = styled.div`
   }
 `;
 
-export const List = styled.div`
+export const ListContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   background: ${({ theme }) => theme.mainBackground};
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
   border-radius: 0.6rem;
   overflow: hidden;
+  position: relative;
 
   ul {
     overflow-y: overlay;
@@ -83,6 +84,15 @@ export const List = styled.div`
       border-bottom: 1px solid ${({ theme }) => theme.textDisabled};
     }
   }
+`;
+
+export const NoContent = styled.span`
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  color: ${({ theme }) => theme.textDisabled};
 `;
 
 export const ListFooter = styled.footer`
