@@ -28,15 +28,28 @@ describe('App', () => {
 
     const input = screen.getByTestId('input');
 
-    await waitFor(() => input);
-
     const description = faker.random.word();
 
     fireEvent.input(input, { target: { value: description } });
     fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
 
+    await waitFor(() => input);
+
     expect(saveTodosSpy.callsCount).toBe(1);
     expect(saveTodosSpy.params).toEqual({ description, completed: false });
+  });
+
+  test('Should clear input after creating a new todo', async () => {
+    makeSut();
+
+    const input = screen.getByTestId('input');
+
+    fireEvent.input(input, { target: { value: faker.random.word() } });
+    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+
+    await waitFor(() => input);
+
+    expect(input).toHaveValue('');
   });
 
   test('Should not call SaveTodos.create when no description is provided', async () => {
