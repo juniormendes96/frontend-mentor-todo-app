@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ListInput, ListItem } from '@/presentation/components';
@@ -28,7 +28,7 @@ type State = {
   currentStatus: ViewTodosStatus;
 };
 
-const App: React.FC<Props> = ({ viewTodos }: Props) => {
+const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
   const [state, setState] = useState<State>({
     todos: [],
     currentStatus: ViewTodosStatus.ALL
@@ -43,6 +43,10 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
     setState(old => ({ ...old, todos, currentStatus: filters.status }));
   };
 
+  const createTodo = async (description: string): Promise<void> => {
+    await saveTodos.create({ description, completed: false });
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
@@ -54,7 +58,7 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
           <h1>TODO</h1>
           <img src={iconSun} alt="Toggle dark mode" />
         </header>
-        <ListInput placeholder="Create a new todo..." />
+        <ListInput onKeyUp={event => event.key === 'Enter' && createTodo(event.currentTarget.value)} placeholder="Create a new todo..." />
         <ListContainer>
           {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
           <ul data-testid="list">
