@@ -44,8 +44,8 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
   const createTodo = async (): Promise<void> => {
     const { currentDescription = '', currentCompletedOption } = state;
     if (currentDescription.trim()) {
-      await saveTodos.create({ description: currentDescription, completed: currentCompletedOption });
-      setState(old => ({ ...old, currentDescription: '' }));
+      const newTodo = await saveTodos.create({ description: currentDescription, completed: currentCompletedOption });
+      setState(old => ({ ...old, currentDescription: '', todos: [newTodo, ...old.todos] }));
     }
   };
 
