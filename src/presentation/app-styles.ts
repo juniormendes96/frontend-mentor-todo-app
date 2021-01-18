@@ -123,10 +123,6 @@ export const ListFooter = styled.footer`
       &:not(:last-child) {
         margin-right: 3rem;
       }
-
-      &:hover {
-        color: ${({ theme }) => theme.textHover};
-      }
     }
   }
 
@@ -141,4 +137,8 @@ export const ListFooter = styled.footer`
 
 export const TodoStatusOption = styled.li<{ active?: boolean }>`
   color: ${({ theme, active }) => (active ? theme.textActive : theme.textDisabled)};
+
+  &:hover {
+    color: ${({ theme, active }) => (active ? theme.textActive : theme.textHover)};
+  }
 `;
