@@ -25,20 +25,22 @@ type Props = {
 
 type State = {
   todos: Todo[];
+  currentStatus: ViewTodosStatus;
 };
 
 const App: React.FC<Props> = ({ viewTodos }: Props) => {
   const [state, setState] = useState<State>({
-    todos: []
+    todos: [],
+    currentStatus: ViewTodosStatus.ALL
   });
 
   useEffect(() => {
-    filterTodos({});
+    filterTodos({ status: state.currentStatus });
   }, []);
 
   const filterTodos = async (filters: ViewTodosFilters): Promise<void> => {
     const todos = await viewTodos.filter(filters);
-    setState(old => ({ ...old, todos }));
+    setState(old => ({ ...old, todos, currentStatus: filters.status }));
   };
 
   return (
@@ -63,13 +65,25 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
           <ListFooter>
             <span data-testid="itemsLeft">{state.todos.filter(todo => !todo.completed).length} items left</span>
             <ul>
-              <TodoStatusOption active data-testid="all" onClick={() => filterTodos({ status: ViewTodosStatus.ALL })}>
+              <TodoStatusOption
+                data-testid="all"
+                active={state.currentStatus === ViewTodosStatus.ALL}
+                onClick={() => filterTodos({ status: ViewTodosStatus.ALL })}
+              >
                 All
               </TodoStatusOption>
-              <TodoStatusOption data-testid="active" onClick={() => filterTodos({ status: ViewTodosStatus.ACTIVE })}>
+              <TodoStatusOption
+                data-testid="active"
+                active={state.currentStatus === ViewTodosStatus.ACTIVE}
+                onClick={() => filterTodos({ status: ViewTodosStatus.ACTIVE })}
+              >
                 Active
               </TodoStatusOption>
-              <TodoStatusOption data-testid="completed" onClick={() => filterTodos({ status: ViewTodosStatus.COMPLETED })}>
+              <TodoStatusOption
+                data-testid="completed"
+                active={state.currentStatus === ViewTodosStatus.COMPLETED}
+                onClick={() => filterTodos({ status: ViewTodosStatus.COMPLETED })}
+              >
                 Completed
               </TodoStatusOption>
             </ul>
