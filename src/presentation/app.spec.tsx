@@ -1,16 +1,17 @@
 import React from 'react';
+import faker from 'faker';
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from '@/presentation/app';
-import { mockActiveTodos, RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
+import { RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
 import { ViewTodosStatus } from '@/domain/usecases';
 
-const makeSut = (viewTodosSpy = new ViewTodosSpy()): void => {
-  render(<App viewTodos={viewTodosSpy} saveTodos={new SaveTodosSpy()} removeTodos={new RemoveTodosSpy()} />);
+const makeSut = (viewTodosSpy = new ViewTodosSpy(), saveTodosSpy = new SaveTodosSpy()): void => {
+  render(<App viewTodos={viewTodosSpy} saveTodos={saveTodosSpy} removeTodos={new RemoveTodosSpy()} />);
 };
 
 describe('App', () => {
-  test('Should call ViewTodos', async () => {
+  test('Should call ViewTodos.filter', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     makeSut(viewTodosSpy);
 
@@ -19,6 +20,20 @@ describe('App', () => {
     await waitFor(() => list);
 
     expect(viewTodosSpy.callsCount).toBe(1);
+  });
+
+  test('Should call SaveTodos.create', async () => {
+    const saveTodosSpy = new SaveTodosSpy();
+    makeSut(undefined, saveTodosSpy);
+
+    const input = screen.getByTestId('input');
+
+    await waitFor(() => input);
+
+    fireEvent.input(input, { target: { value: faker.random.word() } });
+    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+
+    expect(saveTodosSpy.callsCount).toBe(1);
   });
 
   test('Should render correctly on init', async () => {
