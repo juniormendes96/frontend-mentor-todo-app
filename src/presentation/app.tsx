@@ -25,12 +25,14 @@ type Props = {
 
 type State = {
   todos: Todo[];
+  currentDescription: string;
   currentStatus: ViewTodosStatus;
 };
 
 const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
   const [state, setState] = useState<State>({
     todos: [],
+    currentDescription: '',
     currentStatus: ViewTodosStatus.ALL
   });
 
@@ -43,9 +45,11 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
     setState(old => ({ ...old, todos, currentStatus: filters.status }));
   };
 
-  const createTodo = async (description = ''): Promise<void> => {
-    if (description.trim()) {
-      await saveTodos.create({ description, completed: false });
+  const createTodo = async (): Promise<void> => {
+    const { currentDescription = '' } = state;
+    if (currentDescription.trim()) {
+      await saveTodos.create({ description: currentDescription, completed: false });
+      setState(old => ({ ...old, currentDescription: '' }));
     }
   };
 
@@ -60,7 +64,12 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
           <h1>TODO</h1>
           <img src={iconSun} alt="Toggle dark mode" />
         </header>
-        <ListInput onKeyUp={event => event.key === 'Enter' && createTodo(event.currentTarget.value)} placeholder="Create a new todo..." />
+        <ListInput
+          value={state.currentDescription}
+          onChange={event => setState(old => ({ ...old, currentDescription: event.target.value }))}
+          onKeyUp={event => event.key === 'Enter' && createTodo()}
+          placeholder="Create a new todo..."
+        />
         <ListContainer>
           {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
           <ul data-testid="list">
