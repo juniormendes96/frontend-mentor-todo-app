@@ -64,6 +64,20 @@ describe('App', () => {
     expect(input).toHaveValue('');
   });
 
+  test('Should render new todo after its been created', async () => {
+    makeSut();
+
+    const list = screen.getByTestId('list');
+    const description = faker.random.word();
+
+    Helper.enterValidTodo(description);
+
+    await waitFor(() => list);
+
+    expect(list.children).toHaveLength(5);
+    expect(screen.getAllByTestId('description')[0]).toHaveTextContent(description);
+  });
+
   test('Should not call SaveTodos.create when no description is provided', async () => {
     const saveTodosSpy = new SaveTodosSpy();
     makeSut(undefined, saveTodosSpy);
