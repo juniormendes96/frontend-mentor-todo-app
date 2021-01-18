@@ -29,7 +29,7 @@ describe('App', () => {
 
     const description = faker.random.word();
 
-    Helper.enterValidTodo(description);
+    Helper.enterNewTodo(description);
 
     await waitFor(() => screen.getByTestId('input'));
 
@@ -43,7 +43,7 @@ describe('App', () => {
 
     const description = faker.random.word();
 
-    Helper.enterValidTodo(description, true);
+    Helper.enterNewTodo(description, true);
 
     await waitFor(() => screen.getByTestId('input'));
 
@@ -54,11 +54,9 @@ describe('App', () => {
   test('Should clear input after creating a new todo', async () => {
     makeSut();
 
+    Helper.enterNewTodo();
+
     const input = screen.getByTestId('input');
-
-    fireEvent.input(input, { target: { value: faker.random.word() } });
-    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
-
     await waitFor(() => input);
 
     expect(input).toHaveValue('');
@@ -70,7 +68,7 @@ describe('App', () => {
     const list = screen.getByTestId('list');
     const description = faker.random.word();
 
-    Helper.enterValidTodo(description);
+    Helper.enterNewTodo(description);
 
     await waitFor(() => list);
 
@@ -90,8 +88,7 @@ describe('App', () => {
 
     expect(saveTodosSpy.callsCount).toBe(0);
 
-    fireEvent.input(input, { target: { value: '   ' } });
-    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+    Helper.enterNewTodo('   ');
 
     await waitFor(() => input);
 
