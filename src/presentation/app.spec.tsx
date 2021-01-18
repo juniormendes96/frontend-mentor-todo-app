@@ -70,7 +70,7 @@ describe('App', () => {
 
     expect(screen.getByTestId('itemsLeft')).toHaveTextContent('2 items left');
     expect(screen.getByTestId('input')).toHaveAttribute('placeholder', 'Create a new todo...');
-    expect(screen.getByTestId('input')).toHaveTextContent('');
+    expect(screen.getByTestId('input')).toHaveValue('');
 
     expect(list.querySelector('#checkbox-1')).toBeChecked();
     expect(list.querySelector('#checkbox-2')).not.toBeChecked();
