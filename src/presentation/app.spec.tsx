@@ -56,34 +56,24 @@ describe('App', () => {
     expect(screen.getByTestId('inputCheckbox')).not.toBeChecked();
   });
 
-  test('Should call ViewTodos with correct filters on "active" button click', async () => {
+  test('Should call ViewTodos with correct filters on status options click', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     makeSut(viewTodosSpy);
 
-    const li = screen.getByTestId('active');
+    const liAll = screen.getByTestId('all');
+    const liActive = screen.getByTestId('active');
+    const liCompleted = screen.getByTestId('completed');
 
-    await waitFor(() => li);
-
-    li.click();
-
-    await waitFor(() => screen.getByTestId('list'));
-
+    liActive.click();
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ACTIVE });
-  });
 
-  test('Should call ViewTodos with correct filters on "completed" button click', async () => {
-    const viewTodosSpy = new ViewTodosSpy();
-    makeSut(viewTodosSpy);
+    liCompleted.click();
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
 
-    const li = screen.getByTestId('completed');
-
-    await waitFor(() => li);
-
-    li.click();
+    liAll.click();
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
 
     await waitFor(() => screen.getByTestId('list'));
-
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
   });
 
   test('Should render noContent if there are no todos created yet', async () => {
