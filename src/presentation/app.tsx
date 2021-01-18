@@ -11,12 +11,6 @@ import iconSun from '@/presentation/assets/icons/icon-sun.svg';
 import { Todo } from '@/domain/models';
 import { RemoveTodos, SaveTodos, ViewTodos, ViewTodosFilters, ViewTodosStatus } from '@/domain/usecases';
 
-const todo: Todo = {
-  id: 1,
-  completed: false,
-  description: 'Complete online JavaScript course'
-};
-
 type Props = {
   viewTodos: ViewTodos;
   saveTodos: SaveTodos;
