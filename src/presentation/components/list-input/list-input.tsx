@@ -8,8 +8,8 @@ type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>
 const ListInput: React.FC<Props> = (props: Props) => {
   return (
     <ListInputContainer>
-      <Checkbox />
-      <input type="text" {...props} />
+      <Checkbox data-testid="inputCheckbox" />
+      <input data-testid="input" type="text" {...props} />
     </ListInputContainer>
   );
 };

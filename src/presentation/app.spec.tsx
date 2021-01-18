@@ -21,6 +21,41 @@ describe('App', () => {
     expect(viewTodosSpy.callsCount).toBe(1);
   });
 
+  test('Should render correctly on init', async () => {
+    const viewTodosSpy = new ViewTodosSpy();
+    makeSut(viewTodosSpy);
+
+    const list = screen.getByTestId('list');
+
+    await waitFor(() => list);
+
+    const descriptions = screen.getAllByTestId('description');
+
+    expect(list.children).toHaveLength(4);
+
+    expect(screen.getByTestId('itemsLeft')).toHaveTextContent('2 items left');
+    expect(screen.getByTestId('input')).toHaveAttribute('placeholder', 'Create a new todo...');
+    expect(screen.getByTestId('input')).toHaveTextContent('');
+
+    expect(list.querySelector('#checkbox-1')).toBeChecked();
+    expect(list.querySelector('#checkbox-2')).not.toBeChecked();
+    expect(list.querySelector('#checkbox-3')).toBeChecked();
+    expect(list.querySelector('#checkbox-4')).not.toBeChecked();
+
+    expect(descriptions[0]).toHaveTextContent(viewTodosSpy.todos[0].description);
+    expect(descriptions[1]).toHaveTextContent(viewTodosSpy.todos[1].description);
+    expect(descriptions[2]).toHaveTextContent(viewTodosSpy.todos[2].description);
+    expect(descriptions[3]).toHaveTextContent(viewTodosSpy.todos[3].description);
+
+    expect(descriptions[0]).toHaveStyle('text-decoration: line-through');
+    expect(descriptions[1]).toHaveStyle('text-decoration: none');
+    expect(descriptions[2]).toHaveStyle('text-decoration: line-through');
+    expect(descriptions[3]).toHaveStyle('text-decoration: none');
+
+    expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
+    expect(screen.getByTestId('inputCheckbox')).not.toBeChecked();
+  });
+
   test('Should call ViewTodos with correct filters on "active" button click', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     makeSut(viewTodosSpy);
@@ -49,17 +84,6 @@ describe('App', () => {
     await waitFor(() => screen.getByTestId('list'));
 
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
-  });
-
-  test('Should render all items', async () => {
-    makeSut();
-
-    const list = screen.getByTestId('list');
-
-    await waitFor(() => list);
-
-    expect(list.children).toHaveLength(4);
-    expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
   });
 
   test('Should render noContent if there are no todos created yet', async () => {
