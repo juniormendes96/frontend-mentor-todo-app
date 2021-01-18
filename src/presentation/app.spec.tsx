@@ -36,6 +36,26 @@ describe('App', () => {
     expect(saveTodosSpy.callsCount).toBe(1);
   });
 
+  test('Should not call SaveTodos.create when no description is provided', async () => {
+    const saveTodosSpy = new SaveTodosSpy();
+    makeSut(undefined, saveTodosSpy);
+
+    const input = screen.getByTestId('input');
+
+    await waitFor(() => input);
+
+    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+
+    expect(saveTodosSpy.callsCount).toBe(0);
+
+    fireEvent.input(input, { target: { value: '   ' } });
+    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+
+    await waitFor(() => input);
+
+    expect(saveTodosSpy.callsCount).toBe(0);
+  });
+
   test('Should render correctly on init', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     makeSut(viewTodosSpy);
