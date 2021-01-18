@@ -5,6 +5,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from '@/presentation/app';
 import { RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
 import { ViewTodosStatus } from '@/domain/usecases';
+import { Helper } from './test';
 
 const makeSut = (viewTodosSpy = new ViewTodosSpy(), saveTodosSpy = new SaveTodosSpy()): void => {
   render(<App viewTodos={viewTodosSpy} saveTodos={saveTodosSpy} removeTodos={new RemoveTodosSpy()} />);
@@ -22,21 +23,32 @@ describe('App', () => {
     expect(viewTodosSpy.callsCount).toBe(1);
   });
 
-  test('Should call SaveTodos.create with correct values', async () => {
+  test('Should call SaveTodos.create with correct values when not checked', async () => {
     const saveTodosSpy = new SaveTodosSpy();
     makeSut(undefined, saveTodosSpy);
 
-    const input = screen.getByTestId('input');
-
     const description = faker.random.word();
 
-    fireEvent.input(input, { target: { value: description } });
-    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+    Helper.enterValidTodo(description);
 
-    await waitFor(() => input);
+    await waitFor(() => screen.getByTestId('input'));
 
     expect(saveTodosSpy.callsCount).toBe(1);
     expect(saveTodosSpy.params).toEqual({ description, completed: false });
+  });
+
+  test('Should call SaveTodos.create with correct values when checked', async () => {
+    const saveTodosSpy = new SaveTodosSpy();
+    makeSut(undefined, saveTodosSpy);
+
+    const description = faker.random.word();
+
+    Helper.enterValidTodo(description, true);
+
+    await waitFor(() => screen.getByTestId('input'));
+
+    expect(saveTodosSpy.callsCount).toBe(1);
+    expect(saveTodosSpy.params).toEqual({ description, completed: true });
   });
 
   test('Should clear input after creating a new todo', async () => {
@@ -104,7 +116,7 @@ describe('App', () => {
     expect(descriptions[3]).toHaveStyle('text-decoration: none');
 
     expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
-    expect(screen.getByTestId('inputCheckbox')).not.toBeChecked();
+    expect(screen.getAllByTestId('checkbox')[0]).not.toBeChecked();
   });
 
   test('Should render correctly on status option click', async () => {
