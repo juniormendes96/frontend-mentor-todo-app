@@ -63,7 +63,9 @@ const App: React.FC<Props> = ({ viewTodos }: Props) => {
           <ListFooter>
             <span data-testid="itemsLeft">{state.todos.filter(todo => !todo.completed).length} items left</span>
             <ul>
-              <TodoStatusOption active>All</TodoStatusOption>
+              <TodoStatusOption active data-testid="all" onClick={() => filterTodos({ status: ViewTodosStatus.ALL })}>
+                All
+              </TodoStatusOption>
               <TodoStatusOption data-testid="active" onClick={() => filterTodos({ status: ViewTodosStatus.ACTIVE })}>
                 Active
               </TodoStatusOption>
