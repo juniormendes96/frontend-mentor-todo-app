@@ -21,13 +21,15 @@ type State = {
   todos: Todo[];
   currentDescription: string;
   currentStatus: ViewTodosStatus;
+  currentCompletedOption: boolean;
 };
 
 const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
   const [state, setState] = useState<State>({
     todos: [],
     currentDescription: '',
-    currentStatus: ViewTodosStatus.ALL
+    currentStatus: ViewTodosStatus.ALL,
+    currentCompletedOption: false
   });
 
   useEffect(() => {
@@ -40,9 +42,9 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
   };
 
   const createTodo = async (): Promise<void> => {
-    const { currentDescription = '' } = state;
+    const { currentDescription = '', currentCompletedOption } = state;
     if (currentDescription.trim()) {
-      await saveTodos.create({ description: currentDescription, completed: false });
+      await saveTodos.create({ description: currentDescription, completed: currentCompletedOption });
       setState(old => ({ ...old, currentDescription: '' }));
     }
   };
@@ -60,8 +62,10 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
         </header>
         <ListInput
           value={state.currentDescription}
+          checked={state.currentCompletedOption}
           onChange={event => setState(old => ({ ...old, currentDescription: event.target.value }))}
           onKeyUp={event => event.key === 'Enter' && createTodo()}
+          onCheckboxChange={checked => setState(old => ({ ...old, currentCompletedOption: checked }))}
           placeholder="Create a new todo..."
         />
         <ListContainer>
