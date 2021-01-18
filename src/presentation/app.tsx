@@ -43,8 +43,10 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
     setState(old => ({ ...old, todos, currentStatus: filters.status }));
   };
 
-  const createTodo = async (description: string): Promise<void> => {
-    await saveTodos.create({ description, completed: false });
+  const createTodo = async (description = ''): Promise<void> => {
+    if (description.trim()) {
+      await saveTodos.create({ description, completed: false });
+    }
   };
 
   return (
