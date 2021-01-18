@@ -2,7 +2,7 @@ import React from 'react';
 
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '@/presentation/app';
-import { RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
+import { mockActiveTodos, RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
 import { ViewTodosStatus } from '@/domain/usecases';
 
 const makeSut = (viewTodosSpy = new ViewTodosSpy()): void => {
@@ -54,6 +54,39 @@ describe('App', () => {
 
     expect(screen.queryByTestId('noContent')).not.toBeInTheDocument();
     expect(screen.getByTestId('inputCheckbox')).not.toBeChecked();
+  });
+
+  test('Should render correctly on status option click', async () => {
+    makeSut();
+
+    const activeStyle = 'color: #3a7bfd';
+
+    const list = screen.getByTestId('list');
+    const liAll = screen.getByTestId('all');
+    const liActive = screen.getByTestId('active');
+    const liCompleted = screen.getByTestId('completed');
+
+    expect(liAll).toHaveStyle(activeStyle);
+    expect(liActive).not.toHaveStyle(activeStyle);
+    expect(liCompleted).not.toHaveStyle(activeStyle);
+
+    liActive.click();
+    await waitFor(() => list);
+    expect(liAll).not.toHaveStyle(activeStyle);
+    expect(liActive).toHaveStyle(activeStyle);
+    expect(liCompleted).not.toHaveStyle(activeStyle);
+
+    liCompleted.click();
+    await waitFor(() => list);
+    expect(liAll).not.toHaveStyle(activeStyle);
+    expect(liActive).not.toHaveStyle(activeStyle);
+    expect(liCompleted).toHaveStyle(activeStyle);
+
+    liAll.click();
+    await waitFor(() => list);
+    expect(liAll).toHaveStyle(activeStyle);
+    expect(liActive).not.toHaveStyle(activeStyle);
+    expect(liCompleted).not.toHaveStyle(activeStyle);
   });
 
   test('Should call ViewTodos with correct filters on status options click', async () => {

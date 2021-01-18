@@ -36,3 +36,16 @@ export const mockTodos = (): Todo[] => [
     completed: false
   }
 ];
+
+export const mockActiveTodos = (): Todo[] => [
+  {
+    id: 1,
+    description: faker.random.words(),
+    completed: false
+  },
+  {
+    id: 2,
+    description: faker.random.words(),
+    completed: false
+  }
+];
