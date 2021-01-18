@@ -22,7 +22,7 @@ describe('App', () => {
     expect(viewTodosSpy.callsCount).toBe(1);
   });
 
-  test('Should call SaveTodos.create', async () => {
+  test('Should call SaveTodos.create with correct values', async () => {
     const saveTodosSpy = new SaveTodosSpy();
     makeSut(undefined, saveTodosSpy);
 
@@ -30,10 +30,13 @@ describe('App', () => {
 
     await waitFor(() => input);
 
-    fireEvent.input(input, { target: { value: faker.random.word() } });
+    const description = faker.random.word();
+
+    fireEvent.input(input, { target: { value: description } });
     fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
 
     expect(saveTodosSpy.callsCount).toBe(1);
+    expect(saveTodosSpy.params).toEqual({ description, completed: false });
   });
 
   test('Should not call SaveTodos.create when no description is provided', async () => {
