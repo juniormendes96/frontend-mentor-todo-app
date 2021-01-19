@@ -57,6 +57,26 @@ describe('App', () => {
     expect(saveTodosSpy.params).toEqual({ description, completed: false });
   });
 
+  test('Should call SaveTodos.toggle with correct id and render correctly', async () => {
+    const saveTodosSpy = new SaveTodosSpy();
+    saveTodosSpy.completed = true;
+    makeSut({ saveTodosSpy });
+
+    const list = screen.getByTestId('list');
+    await waitFor(() => list);
+
+    const description1 = screen.getAllByTestId('description')[0];
+
+    fireEvent.click(screen.getAllByTestId('checkboxContainer')[1]);
+
+    await waitFor(() => list);
+
+    expect(saveTodosSpy.toggleCallsCount).toBe(1);
+    expect(saveTodosSpy.id).toBe(1);
+    expect(screen.getAllByTestId('checkbox')[1]).toBeChecked();
+    expect(description1).toHaveStyle('text-decoration: line-through');
+  });
+
   test('Should call SaveTodos.create with correct values when checked', async () => {
     const { saveTodosSpy } = makeSut();
 
