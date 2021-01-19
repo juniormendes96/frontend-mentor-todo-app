@@ -1,16 +1,19 @@
 import { RemoveTodos } from '@/domain/usecases';
 import { Todo } from '../models';
+import { mockActiveTodos } from './mock-todos';
 
 export class RemoveTodosSpy implements RemoveTodos {
-  callsCount = 0;
+  removeCallsCount = 0;
+  clearCompletedCallsCount = 0;
   id: number;
 
   remove(id: number): void {
     this.id = id;
-    this.callsCount++;
+    this.removeCallsCount++;
   }
 
   clearCompleted(): Todo[] {
-    return [];
+    this.clearCompletedCallsCount++;
+    return mockActiveTodos();
   }
 }
