@@ -7,14 +7,35 @@ import { RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
 import { ViewTodosStatus } from '@/domain/usecases';
 import { Helper } from './test';
 
-const makeSut = (viewTodosSpy = new ViewTodosSpy(), saveTodosSpy = new SaveTodosSpy()): void => {
-  render(<App viewTodos={viewTodosSpy} saveTodos={saveTodosSpy} removeTodos={new RemoveTodosSpy()} />);
+type SutTypes = {
+  viewTodosSpy: ViewTodosSpy;
+  saveTodosSpy: SaveTodosSpy;
+  removeTodosSpy: RemoveTodosSpy;
+};
+
+type SutParams = {
+  viewTodosSpy?: ViewTodosSpy;
+  saveTodosSpy?: SaveTodosSpy;
+  removeTodosSpy?: RemoveTodosSpy;
+};
+
+const makeSut = ({
+  viewTodosSpy = new ViewTodosSpy(),
+  saveTodosSpy = new SaveTodosSpy(),
+  removeTodosSpy = new RemoveTodosSpy()
+}: SutParams = {}): SutTypes => {
+  render(<App viewTodos={viewTodosSpy} saveTodos={saveTodosSpy} removeTodos={removeTodosSpy} />);
+
+  return {
+    viewTodosSpy,
+    saveTodosSpy,
+    removeTodosSpy
+  };
 };
 
 describe('App', () => {
   test('Should call ViewTodos.filter', async () => {
-    const viewTodosSpy = new ViewTodosSpy();
-    makeSut(viewTodosSpy);
+    const { viewTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
 
@@ -24,8 +45,7 @@ describe('App', () => {
   });
 
   test('Should call SaveTodos.create with correct values when not checked', async () => {
-    const saveTodosSpy = new SaveTodosSpy();
-    makeSut(undefined, saveTodosSpy);
+    const { saveTodosSpy } = makeSut();
 
     const description = faker.random.word();
 
@@ -38,8 +58,7 @@ describe('App', () => {
   });
 
   test('Should call SaveTodos.create with correct values when checked', async () => {
-    const saveTodosSpy = new SaveTodosSpy();
-    makeSut(undefined, saveTodosSpy);
+    const { saveTodosSpy } = makeSut();
 
     const description = faker.random.word();
 
@@ -77,8 +96,7 @@ describe('App', () => {
   });
 
   test('Should not call SaveTodos.create when no description is provided', async () => {
-    const saveTodosSpy = new SaveTodosSpy();
-    makeSut(undefined, saveTodosSpy);
+    const { saveTodosSpy } = makeSut();
 
     const input = screen.getByTestId('input');
 
@@ -96,8 +114,7 @@ describe('App', () => {
   });
 
   test('Should render correctly on init', async () => {
-    const viewTodosSpy = new ViewTodosSpy();
-    makeSut(viewTodosSpy);
+    const { viewTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
 
@@ -164,8 +181,7 @@ describe('App', () => {
   });
 
   test('Should call ViewTodos with correct filters on status options click', async () => {
-    const viewTodosSpy = new ViewTodosSpy();
-    makeSut(viewTodosSpy);
+    const { viewTodosSpy } = makeSut();
 
     const liAll = screen.getByTestId('all');
     const liActive = screen.getByTestId('active');
@@ -187,7 +203,7 @@ describe('App', () => {
     const viewTodosSpy = new ViewTodosSpy();
     viewTodosSpy.todos = [];
 
-    makeSut(viewTodosSpy);
+    makeSut({ viewTodosSpy });
 
     const list = screen.getByTestId('list');
 
