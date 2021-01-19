@@ -59,6 +59,12 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
     setState(old => ({ ...old, todos }));
   };
 
+  const toggleTodo = async (id: number): Promise<void> => {
+    const completed = await saveTodos.toggle(id);
+    const todos = state.todos.map(todo => (todo.id === id ? { ...todo, completed } : todo));
+    setState(old => ({ ...old, todos }));
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
@@ -82,7 +88,7 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
           {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
           <ul data-testid="list">
             {state.todos.map(todo => (
-              <ListItem key={todo.id} todo={todo} onRemove={removeTodo} />
+              <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} />
             ))}
           </ul>
           <ListFooter>
