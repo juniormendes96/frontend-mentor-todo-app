@@ -54,6 +54,11 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
     setState(old => ({ ...old, todos: old.todos.filter(todo => todo.id !== id) }));
   };
 
+  const clearCompletedTodos = async (): Promise<void> => {
+    const todos = await removeTodos.clearCompleted();
+    setState(old => ({ ...old, todos }));
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
@@ -105,7 +110,9 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
                 Completed
               </TodoStatusOption>
             </ul>
-            <a>Clear completed</a>
+            <a data-testid="clearCompleted" onClick={() => clearCompletedTodos()}>
+              Clear completed
+            </a>
           </ListFooter>
         </ListContainer>
       </AppContainer>
