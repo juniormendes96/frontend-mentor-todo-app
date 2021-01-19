@@ -70,6 +70,24 @@ describe('App', () => {
     expect(saveTodosSpy.params).toEqual({ description, completed: true });
   });
 
+  test('Should call RemoveTodos.remove with correct id', async () => {
+    const { removeTodosSpy } = makeSut();
+
+    await waitFor(() => list);
+
+    const removeButtons = screen.getAllByTestId('remove');
+    const list = screen.getByTestId('list');
+
+    fireEvent.click(removeButtons[0]);
+
+    await waitFor(() => list);
+
+    expect(list.children).toHaveLength(3);
+    expect(removeTodosSpy.callsCount).toBe(1);
+    expect(removeTodosSpy.id).toBe(1);
+    expect(list.querySelector('#checkbox-1')).not.toBeInTheDocument();
+  });
+
   test('Should clear input after creating a new todo', async () => {
     makeSut();
 
