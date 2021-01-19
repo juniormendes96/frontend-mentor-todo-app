@@ -21,7 +21,7 @@ const ListItem: React.FC<Props> = ({ todo, onToggle = () => {}, onRemove = () =>
       <ListItemDescription data-testid="description" disabled={todo.completed} htmlFor={checkboxId}>
         {todo.description}
       </ListItemDescription>
-      <img src={iconCross} alt="Remove" onClick={() => onRemove(todo.id)} />
+      <img src={iconCross} data-testid="remove" alt="Remove" onClick={() => onRemove(todo.id)} />
     </ListItemContainer>
   );
 };

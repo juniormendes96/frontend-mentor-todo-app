@@ -24,7 +24,7 @@ type State = {
   currentCompletedOption: boolean;
 };
 
-const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
+const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
   const [state, setState] = useState<State>({
     todos: [],
     currentDescription: '',
@@ -47,6 +47,11 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
       const newTodo = await saveTodos.create({ description: currentDescription, completed: currentCompletedOption });
       setState(old => ({ ...old, currentDescription: '', todos: [newTodo, ...old.todos] }));
     }
+  };
+
+  const removeTodo = async (id: number): Promise<void> => {
+    await removeTodos.remove(id);
+    setState(old => ({ ...old, todos: old.todos.filter(todo => todo.id !== id) }));
   };
 
   return (
@@ -72,7 +77,7 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos }: Props) => {
           {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
           <ul data-testid="list">
             {state.todos.map(todo => (
-              <ListItem key={todo.id} todo={todo} />
+              <ListItem key={todo.id} todo={todo} onRemove={removeTodo} />
             ))}
           </ul>
           <ListFooter>
