@@ -9,6 +9,7 @@ export class SaveTodosSpy implements SaveTodos {
   createCallsCount = 0;
   toggleCallsCount = 0;
   params: CreateTodoParams;
+  completed = faker.random.boolean();
 
   create(params: CreateTodoParams): Promise<Todo> {
     this.createCallsCount++;
@@ -24,6 +25,6 @@ export class SaveTodosSpy implements SaveTodos {
   toggle(id: number): Promise<boolean> {
     this.id = id;
     this.toggleCallsCount++;
-    return Promise.resolve(null);
+    return Promise.resolve(this.completed);
   }
 }

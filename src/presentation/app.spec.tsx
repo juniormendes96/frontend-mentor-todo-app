@@ -53,7 +53,7 @@ describe('App', () => {
 
     await waitFor(() => screen.getByTestId('input'));
 
-    expect(saveTodosSpy.callsCount).toBe(1);
+    expect(saveTodosSpy.createCallsCount).toBe(1);
     expect(saveTodosSpy.params).toEqual({ description, completed: false });
   });
 
@@ -66,17 +66,17 @@ describe('App', () => {
 
     await waitFor(() => screen.getByTestId('input'));
 
-    expect(saveTodosSpy.callsCount).toBe(1);
+    expect(saveTodosSpy.createCallsCount).toBe(1);
     expect(saveTodosSpy.params).toEqual({ description, completed: true });
   });
 
   test('Should call RemoveTodos.remove with correct id and remove from list', async () => {
     const { removeTodosSpy } = makeSut();
 
+    const list = screen.getByTestId('list');
     await waitFor(() => list);
 
     const removeButtons = screen.getAllByTestId('remove');
-    const list = screen.getByTestId('list');
 
     fireEvent.click(removeButtons[0]);
 
@@ -138,13 +138,13 @@ describe('App', () => {
 
     fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
 
-    expect(saveTodosSpy.callsCount).toBe(0);
+    expect(saveTodosSpy.createCallsCount).toBe(0);
 
     Helper.enterNewTodo('   ');
 
     await waitFor(() => input);
 
-    expect(saveTodosSpy.callsCount).toBe(0);
+    expect(saveTodosSpy.createCallsCount).toBe(0);
   });
 
   test('Should render correctly on init', async () => {
