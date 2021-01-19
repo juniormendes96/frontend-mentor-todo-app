@@ -84,31 +84,31 @@ describe('LocalSaveTodos', () => {
     });
 
     test('Should mark todo as completed', async () => {
-      const { sut, getStorageSpy } = makeSut();
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
 
       const todos = mockTodos();
       const todo = { ...mockTodo(), completed: false };
 
       getStorageSpy.value = [...todos, todo];
 
-      const toggledTodo = await sut.toggle(todo.id);
+      const completed = await sut.toggle(todo.id);
 
-      expect(toggledTodo.completed).toBe(true);
-      expect(getStorageSpy.value).toEqual([...todos, toggledTodo]);
+      expect(completed).toBe(true);
+      expect(setStorageSpy.value).toEqual([...todos, { ...todo, completed: true }]);
     });
 
     test('Should mark todo as uncompleted', async () => {
-      const { sut, getStorageSpy } = makeSut();
+      const { sut, getStorageSpy, setStorageSpy } = makeSut();
 
       const todos = mockTodos();
       const todo = { ...mockTodo(), completed: true };
 
       getStorageSpy.value = [...todos, todo];
 
-      const toggledTodo = await sut.toggle(todo.id);
+      const completed = await sut.toggle(todo.id);
 
-      expect(toggledTodo.completed).toBe(false);
-      expect(getStorageSpy.value).toEqual([...todos, toggledTodo]);
+      expect(completed).toBe(false);
+      expect(setStorageSpy.value).toEqual([...todos, { ...todo, completed: false }]);
     });
   });
 });

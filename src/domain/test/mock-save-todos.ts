@@ -1,14 +1,17 @@
 import faker from 'faker';
 
+import { mockTodo } from '@/domain/test';
 import { CreateTodoParams, SaveTodos } from '@/domain/usecases';
-import { Todo } from '../models';
+import { Todo } from '@/domain/models';
 
 export class SaveTodosSpy implements SaveTodos {
-  callsCount = 0;
+  id: number;
+  createCallsCount = 0;
+  toggleCallsCount = 0;
   params: CreateTodoParams;
 
   create(params: CreateTodoParams): Promise<Todo> {
-    this.callsCount++;
+    this.createCallsCount++;
     this.params = params;
 
     return Promise.resolve({
@@ -17,7 +20,10 @@ export class SaveTodosSpy implements SaveTodos {
       completed: params.completed
     });
   }
-  toggle(id: number): Promise<Todo> {
+
+  toggle(id: number): Promise<boolean> {
+    this.id = id;
+    this.toggleCallsCount++;
     return Promise.resolve(null);
   }
 }

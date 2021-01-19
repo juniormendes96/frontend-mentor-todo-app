@@ -5,13 +5,13 @@ import { SaveTodos, CreateTodoParams } from '@/domain/usecases';
 export class LocalSaveTodos implements SaveTodos {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
-  toggle(id: number): Promise<Todo> {
+  toggle(id: number): Promise<boolean> {
     const todos = this.getTodosFromStorage();
     const todo = todos.find(todo => todo.id === id);
     todo.completed = !todo.completed;
 
     this.setStorage.set('todos', todos);
-    return Promise.resolve(todo);
+    return Promise.resolve(todo.completed);
   }
 
   create(params: CreateTodoParams): Promise<Todo> {
