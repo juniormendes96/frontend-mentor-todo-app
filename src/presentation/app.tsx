@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { ListInput, ListItem } from '@/presentation/components';
-import { Body, BackgroundImageContainer, AppContainer, ListContainer, ListFooter, TodoStatusOption, NoContent } from './app-styles';
+import { ListFooter, ListInput, ListItem } from '@/presentation/components';
+import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from './app-styles';
 import { darkTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
@@ -98,35 +98,12 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
               <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} />
             ))}
           </ul>
-          <ListFooter>
-            <span data-testid="itemsLeft">{state.todos.filter(todo => !todo.completed).length} items left</span>
-            <ul>
-              <TodoStatusOption
-                data-testid="all"
-                active={state.currentStatus === ViewTodosStatus.ALL}
-                onClick={() => filterTodos({ status: ViewTodosStatus.ALL })}
-              >
-                All
-              </TodoStatusOption>
-              <TodoStatusOption
-                data-testid="active"
-                active={state.currentStatus === ViewTodosStatus.ACTIVE}
-                onClick={() => filterTodos({ status: ViewTodosStatus.ACTIVE })}
-              >
-                Active
-              </TodoStatusOption>
-              <TodoStatusOption
-                data-testid="completed"
-                active={state.currentStatus === ViewTodosStatus.COMPLETED}
-                onClick={() => filterTodos({ status: ViewTodosStatus.COMPLETED })}
-              >
-                Completed
-              </TodoStatusOption>
-            </ul>
-            <a data-testid="clearCompleted" onClick={() => clearCompletedTodos()}>
-              Clear completed
-            </a>
-          </ListFooter>
+          <ListFooter
+            currentStatus={state.currentStatus}
+            itemsLeft={state.todos.filter(todo => !todo.completed).length}
+            statusClick={status => filterTodos({ status })}
+            clearCompletedClick={clearCompletedTodos}
+          />
         </ListContainer>
       </AppContainer>
     </ThemeProvider>
