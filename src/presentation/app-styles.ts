@@ -5,10 +5,15 @@ export const Body = styled.div`
   background: ${({ theme }) => theme.body};
 `;
 
-export const BackgroundImage = styled.img`
-  display: block;
+export const BackgroundImageContainer = styled.div`
+  overflow: hidden;
   height: 35vh;
   width: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const AppContainer = styled.div`

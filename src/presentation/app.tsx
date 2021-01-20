@@ -2,11 +2,12 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ListInput, ListItem } from '@/presentation/components';
-import { Body, BackgroundImage, AppContainer, ListContainer, ListFooter, TodoStatusOption, NoContent } from './app-styles';
+import { Body, BackgroundImageContainer, AppContainer, ListContainer, ListFooter, TodoStatusOption, NoContent } from './app-styles';
 import { darkTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
 import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
+import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
 import iconSun from '@/presentation/assets/icons/icon-sun.svg';
 import { Todo } from '@/domain/models';
 import { RemoveTodos, SaveTodos, ViewTodos, ViewTodosFilters, ViewTodosStatus } from '@/domain/usecases';
@@ -68,7 +69,13 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
-      <BackgroundImage src={backgroundDesktopDark} alt="Background image" />
+      <BackgroundImageContainer>
+        <picture>
+          <source media="(max-width: 650px)" srcSet={backgroundMobileDark} />
+          <img src={backgroundDesktopDark} alt="Background image" />
+        </picture>
+      </BackgroundImageContainer>
+
       <Body />
 
       <AppContainer>
