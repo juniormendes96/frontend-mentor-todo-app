@@ -1,13 +1,13 @@
 import { mockTodos } from './mock-todos';
-import { ViewTodos, ViewTodosFilters } from '@/domain/usecases';
+import { FilterTodos, FilterTodosFilters } from '@/domain/usecases';
 import { Todo } from '../models';
 
-export class ViewTodosSpy implements ViewTodos {
+export class FilterTodosSpy implements FilterTodos {
   callsCount = 0;
-  filters: ViewTodosFilters;
+  filters: FilterTodosFilters;
   todos = mockTodos();
 
-  filter(filters: ViewTodosFilters): Promise<Todo[]> {
+  invoke(filters: FilterTodosFilters): Promise<Todo[]> {
     this.callsCount++;
     this.filters = filters;
     return Promise.resolve(this.todos);

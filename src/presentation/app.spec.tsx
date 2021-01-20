@@ -3,49 +3,65 @@ import faker from 'faker';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from '@/presentation/app';
-import { RemoveTodosSpy, SaveTodosSpy, ViewTodosSpy } from '@/domain/test';
-import { ViewTodosStatus } from '@/domain/usecases';
+import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
+import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from './test';
 
 type SutTypes = {
-  viewTodosSpy: ViewTodosSpy;
-  saveTodosSpy: SaveTodosSpy;
-  removeTodosSpy: RemoveTodosSpy;
+  filterTodosSpy: FilterTodosSpy;
+  createTodoSpy: CreateTodoSpy;
+  toggleTodoSpy: ToggleTodoSpy;
+  removeTodoSpy: RemoveTodoSpy;
+  clearCompletedTodosSpy: ClearCompletedTodosSpy;
 };
 
 type SutParams = {
-  viewTodosSpy?: ViewTodosSpy;
-  saveTodosSpy?: SaveTodosSpy;
-  removeTodosSpy?: RemoveTodosSpy;
+  filterTodosSpy?: FilterTodosSpy;
+  createTodoSpy?: CreateTodoSpy;
+  toggleTodoSpy?: ToggleTodoSpy;
+  removeTodoSpy?: RemoveTodoSpy;
+  clearCompletedTodosSpy?: ClearCompletedTodosSpy;
 };
 
 const makeSut = ({
-  viewTodosSpy = new ViewTodosSpy(),
-  saveTodosSpy = new SaveTodosSpy(),
-  removeTodosSpy = new RemoveTodosSpy()
+  filterTodosSpy = new FilterTodosSpy(),
+  toggleTodoSpy = new ToggleTodoSpy(),
+  createTodoSpy = new CreateTodoSpy(),
+  removeTodoSpy = new RemoveTodoSpy(),
+  clearCompletedTodosSpy = new ClearCompletedTodosSpy()
 }: SutParams = {}): SutTypes => {
-  render(<App viewTodos={viewTodosSpy} saveTodos={saveTodosSpy} removeTodos={removeTodosSpy} />);
+  render(
+    <App
+      filterTodos={filterTodosSpy}
+      toggleTodo={toggleTodoSpy}
+      createTodo={createTodoSpy}
+      removeTodo={removeTodoSpy}
+      clearCompletedTodos={clearCompletedTodosSpy}
+    />
+  );
 
   return {
-    viewTodosSpy,
-    saveTodosSpy,
-    removeTodosSpy
+    filterTodosSpy,
+    toggleTodoSpy,
+    createTodoSpy,
+    removeTodoSpy,
+    clearCompletedTodosSpy
   };
 };
 
 describe('App', () => {
-  test('Should call ViewTodos.filter', async () => {
-    const { viewTodosSpy } = makeSut();
+  test('Should call FilterTodos usecase', async () => {
+    const { filterTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
 
     await waitFor(() => list);
 
-    expect(viewTodosSpy.callsCount).toBe(1);
+    expect(filterTodosSpy.callsCount).toBe(1);
   });
 
-  test('Should call SaveTodos.create with correct values when checked', async () => {
-    const { saveTodosSpy } = makeSut();
+  test('Should call CreateTodo usecase with correct values when checked', async () => {
+    const { createTodoSpy } = makeSut();
 
     const description = faker.random.word();
 
@@ -53,12 +69,12 @@ describe('App', () => {
 
     await waitFor(() => screen.getByTestId('input'));
 
-    expect(saveTodosSpy.createCallsCount).toBe(1);
-    expect(saveTodosSpy.params).toEqual({ description, completed: true });
+    expect(createTodoSpy.callsCount).toBe(1);
+    expect(createTodoSpy.params).toEqual({ description, completed: true });
   });
 
-  test('Should call SaveTodos.create with correct values when not checked', async () => {
-    const { saveTodosSpy } = makeSut();
+  test('Should call CreateTodo usecase with correct values when not checked', async () => {
+    const { createTodoSpy } = makeSut();
 
     const description = faker.random.word();
 
@@ -66,12 +82,12 @@ describe('App', () => {
 
     await waitFor(() => screen.getByTestId('input'));
 
-    expect(saveTodosSpy.createCallsCount).toBe(1);
-    expect(saveTodosSpy.params).toEqual({ description, completed: false });
+    expect(createTodoSpy.callsCount).toBe(1);
+    expect(createTodoSpy.params).toEqual({ description, completed: false });
   });
 
-  test('Should call SaveTodos.toggle with correct id', async () => {
-    const { viewTodosSpy, saveTodosSpy } = makeSut();
+  test('Should call ToggleTodo usecase with correct id', async () => {
+    const { filterTodosSpy, toggleTodoSpy } = makeSut();
 
     const list = screen.getByTestId('list');
     await waitFor(() => list);
@@ -80,14 +96,14 @@ describe('App', () => {
 
     await waitFor(() => list);
 
-    expect(saveTodosSpy.toggleCallsCount).toBe(1);
-    expect(saveTodosSpy.id).toBe(2);
-    expect(viewTodosSpy.callsCount).toBe(2);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
+    expect(toggleTodoSpy.callsCount).toBe(1);
+    expect(toggleTodoSpy.id).toBe(2);
+    expect(filterTodosSpy.callsCount).toBe(2);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ALL });
   });
 
-  test('Should call RemoveTodos.remove with correct id', async () => {
-    const { viewTodosSpy, removeTodosSpy } = makeSut();
+  test('Should call RemoveTodo usecase with correct id', async () => {
+    const { filterTodosSpy, removeTodoSpy } = makeSut();
 
     const list = screen.getByTestId('list');
     await waitFor(() => list);
@@ -98,14 +114,14 @@ describe('App', () => {
 
     await waitFor(() => list);
 
-    expect(removeTodosSpy.removeCallsCount).toBe(1);
-    expect(removeTodosSpy.id).toBe(1);
-    expect(viewTodosSpy.callsCount).toBe(2);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
+    expect(removeTodoSpy.callsCount).toBe(1);
+    expect(removeTodoSpy.id).toBe(1);
+    expect(filterTodosSpy.callsCount).toBe(2);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ALL });
   });
 
-  test('Should call RemoveTodos.clearCompleted', async () => {
-    const { viewTodosSpy, removeTodosSpy } = makeSut();
+  test('Should call ClearCompletedTodos usecase', async () => {
+    const { filterTodosSpy, clearCompletedTodosSpy } = makeSut();
 
     const clearCompleted = screen.getByTestId('clearCompleted');
 
@@ -113,9 +129,9 @@ describe('App', () => {
 
     await waitFor(() => screen.getByTestId('list'));
 
-    expect(removeTodosSpy.clearCompletedCallsCount).toBe(1);
-    expect(viewTodosSpy.callsCount).toBe(2);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
+    expect(clearCompletedTodosSpy.callsCount).toBe(1);
+    expect(filterTodosSpy.callsCount).toBe(2);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ALL });
   });
 
   test('Should clear input after creating a new todo', async () => {
@@ -129,7 +145,7 @@ describe('App', () => {
     expect(input).toHaveValue('');
   });
 
-  test('Should render new todo after its been created', async () => {
+  test('Should render new todo after it has been created', async () => {
     makeSut();
 
     const list = screen.getByTestId('list');
@@ -143,8 +159,8 @@ describe('App', () => {
     expect(screen.getAllByTestId('description')[0]).toHaveTextContent(description);
   });
 
-  test('Should not call SaveTodos.create when no description is provided', async () => {
-    const { saveTodosSpy } = makeSut();
+  test('Should not call CreateTodo usecase when no description is provided', async () => {
+    const { createTodoSpy } = makeSut();
 
     const input = screen.getByTestId('input');
 
@@ -152,17 +168,17 @@ describe('App', () => {
 
     fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
 
-    expect(saveTodosSpy.createCallsCount).toBe(0);
+    expect(createTodoSpy.callsCount).toBe(0);
 
     Helper.enterNewTodo('   ');
 
     await waitFor(() => input);
 
-    expect(saveTodosSpy.createCallsCount).toBe(0);
+    expect(createTodoSpy.callsCount).toBe(0);
   });
 
   test('Should render correctly', async () => {
-    const { viewTodosSpy } = makeSut();
+    const { filterTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
 
@@ -181,10 +197,10 @@ describe('App', () => {
     expect(list.querySelector('#checkbox-3')).toBeChecked();
     expect(list.querySelector('#checkbox-4')).not.toBeChecked();
 
-    expect(descriptions[0]).toHaveTextContent(viewTodosSpy.todos[0].description);
-    expect(descriptions[1]).toHaveTextContent(viewTodosSpy.todos[1].description);
-    expect(descriptions[2]).toHaveTextContent(viewTodosSpy.todos[2].description);
-    expect(descriptions[3]).toHaveTextContent(viewTodosSpy.todos[3].description);
+    expect(descriptions[0]).toHaveTextContent(filterTodosSpy.todos[0].description);
+    expect(descriptions[1]).toHaveTextContent(filterTodosSpy.todos[1].description);
+    expect(descriptions[2]).toHaveTextContent(filterTodosSpy.todos[2].description);
+    expect(descriptions[3]).toHaveTextContent(filterTodosSpy.todos[3].description);
 
     expect(descriptions[0]).toHaveStyle('text-decoration: line-through');
     expect(descriptions[1]).toHaveStyle('text-decoration: none');
@@ -228,33 +244,33 @@ describe('App', () => {
     expect(liCompleted).not.toHaveStyle(activeStyle);
   });
 
-  test('Should call ViewTodos with correct filters on status options click', async () => {
-    const { viewTodosSpy } = makeSut();
+  test('Should call FilterTodos usecase with correct filters on status options click', async () => {
+    const { filterTodosSpy } = makeSut();
 
     const liAll = screen.getByTestId('all');
     const liActive = screen.getByTestId('active');
     const liCompleted = screen.getByTestId('completed');
 
     liActive.click();
-    expect(viewTodosSpy.callsCount).toBe(2);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ACTIVE });
+    expect(filterTodosSpy.callsCount).toBe(2);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ACTIVE });
 
     liCompleted.click();
-    expect(viewTodosSpy.callsCount).toBe(3);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
+    expect(filterTodosSpy.callsCount).toBe(3);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.COMPLETED });
 
     liAll.click();
-    expect(viewTodosSpy.callsCount).toBe(4);
-    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
+    expect(filterTodosSpy.callsCount).toBe(4);
+    expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ALL });
 
     await waitFor(() => screen.getByTestId('list'));
   });
 
   test('Should render noContent if there are no todos to show', async () => {
-    const viewTodosSpy = new ViewTodosSpy();
-    viewTodosSpy.todos = [];
+    const filterTodosSpy = new FilterTodosSpy();
+    filterTodosSpy.todos = [];
 
-    makeSut({ viewTodosSpy });
+    makeSut({ filterTodosSpy });
 
     const list = screen.getByTestId('list');
 

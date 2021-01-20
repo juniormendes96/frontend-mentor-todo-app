@@ -1,8 +1,22 @@
 import React, { ReactElement } from 'react';
 
 import App from '@/presentation/app';
-import { makeLocalRemoveTodos, makeLocalSaveTodos, makeLocalViewTodos } from '@/main/factories/usecases';
+import {
+  makeLocalFilterTodos,
+  makeLocalCreateTodo,
+  makeLocalToggleTodo,
+  makeLocalRemoveTodo,
+  makeLocalClearCompletedTodos
+} from '@/main/factories/usecases';
 
 export const makeApp = (): ReactElement => {
-  return <App viewTodos={makeLocalViewTodos()} saveTodos={makeLocalSaveTodos()} removeTodos={makeLocalRemoveTodos()} />;
+  return (
+    <App
+      filterTodos={makeLocalFilterTodos()}
+      createTodo={makeLocalCreateTodo()}
+      toggleTodo={makeLocalToggleTodo()}
+      removeTodo={makeLocalRemoveTodo()}
+      clearCompletedTodos={makeLocalClearCompletedTodos()}
+    />
+  );
 };

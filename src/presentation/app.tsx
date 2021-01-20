@@ -10,26 +10,36 @@ import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.
 import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
 import iconSun from '@/presentation/assets/icons/icon-sun.svg';
 import { Todo } from '@/domain/models';
-import { RemoveTodos, SaveTodos, ViewTodos, ViewTodosFilters, ViewTodosStatus } from '@/domain/usecases';
+import {
+  FilterTodos,
+  CreateTodo,
+  ToggleTodo,
+  RemoveTodo,
+  ClearCompletedTodos,
+  FilterTodosStatus,
+  FilterTodosFilters
+} from '@/domain/usecases';
 
 type Props = {
-  viewTodos: ViewTodos;
-  saveTodos: SaveTodos;
-  removeTodos: RemoveTodos;
+  filterTodos: FilterTodos;
+  createTodo: CreateTodo;
+  toggleTodo: ToggleTodo;
+  removeTodo: RemoveTodo;
+  clearCompletedTodos: ClearCompletedTodos;
 };
 
 type State = {
   todos: Todo[];
   currentDescription: string;
-  currentStatus: ViewTodosStatus;
+  currentStatus: FilterTodosStatus;
   currentCompletedOption: boolean;
 };
 
-const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
+const App: React.FC<Props> = (props: Props) => {
   const [state, setState] = useState<State>({
     todos: [],
     currentDescription: '',
-    currentStatus: ViewTodosStatus.ALL,
+    currentStatus: FilterTodosStatus.ALL,
     currentCompletedOption: false
   });
 
@@ -37,8 +47,8 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
     filterTodosWithCurrentStatus();
   }, []);
 
-  const filterTodos = async (filters: ViewTodosFilters): Promise<void> => {
-    const todos = await viewTodos.filter(filters);
+  const filterTodos = async (filters: FilterTodosFilters): Promise<void> => {
+    const todos = await props.filterTodos.invoke(filters);
     setState(old => ({ ...old, todos, currentStatus: filters.status }));
   };
 
@@ -49,23 +59,23 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
   const createTodo = async (): Promise<void> => {
     const { currentDescription = '', currentCompletedOption } = state;
     if (currentDescription.trim()) {
-      const newTodo = await saveTodos.create({ description: currentDescription, completed: currentCompletedOption });
+      const newTodo = await props.createTodo.invoke({ description: currentDescription, completed: currentCompletedOption });
       setState(old => ({ ...old, currentDescription: '', todos: [newTodo, ...old.todos] }));
     }
   };
 
   const removeTodo = async (id: number): Promise<void> => {
-    await removeTodos.remove(id);
+    await props.removeTodo.invoke(id);
     await filterTodosWithCurrentStatus();
   };
 
   const clearCompletedTodos = async (): Promise<void> => {
-    await removeTodos.clearCompleted();
+    await props.clearCompletedTodos.invoke();
     await filterTodosWithCurrentStatus();
   };
 
   const toggleTodo = async (id: number): Promise<void> => {
-    await saveTodos.toggle(id);
+    await props.toggleTodo.invoke(id);
     await filterTodosWithCurrentStatus();
   };
 

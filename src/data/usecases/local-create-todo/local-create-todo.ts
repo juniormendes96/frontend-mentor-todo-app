@@ -1,20 +1,11 @@
 import { GetStorage, SetStorage } from '@/data/protocols/cache';
 import { Todo } from '@/domain/models';
-import { SaveTodos, CreateTodoParams } from '@/domain/usecases';
+import { CreateTodo, CreateTodoParams } from '@/domain/usecases';
 
-export class LocalSaveTodos implements SaveTodos {
+export class LocalCreateTodo implements CreateTodo {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
-  toggle(id: number): Promise<boolean> {
-    const todos = this.getTodosFromStorage();
-    const todo = todos.find(todo => todo.id === id);
-    todo.completed = !todo.completed;
-
-    this.setStorage.set('todos', todos);
-    return Promise.resolve(todo.completed);
-  }
-
-  create(params: CreateTodoParams): Promise<Todo> {
+  invoke(params: CreateTodoParams): Promise<Todo> {
     const todos: Todo[] = this.getTodosFromStorage();
 
     const todo: Todo = {
