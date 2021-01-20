@@ -236,12 +236,15 @@ describe('App', () => {
     const liCompleted = screen.getByTestId('completed');
 
     liActive.click();
+    expect(viewTodosSpy.callsCount).toBe(2);
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ACTIVE });
 
     liCompleted.click();
+    expect(viewTodosSpy.callsCount).toBe(3);
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.COMPLETED });
 
     liAll.click();
+    expect(viewTodosSpy.callsCount).toBe(4);
     expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
 
     await waitFor(() => screen.getByTestId('list'));
