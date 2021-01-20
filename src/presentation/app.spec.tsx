@@ -273,7 +273,7 @@ describe('App', () => {
     await waitFor(() => screen.getByTestId('list'));
   });
 
-  test('Should render noContent if there are no todos created yet', async () => {
+  test('Should render noContent if there are no todos to show', async () => {
     const viewTodosSpy = new ViewTodosSpy();
     viewTodosSpy.todos = [];
 

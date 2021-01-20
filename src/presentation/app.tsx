@@ -92,7 +92,7 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
           placeholder="Create a new todo..."
         />
         <ListContainer>
-          {!state.todos.length && <NoContent data-testid="noContent">There are no todos created yet.</NoContent>}
+          {!state.todos.length && <NoContent data-testid="noContent">There are no todos to show.</NoContent>}
           <ul data-testid="list">
             {state.todos.map(todo => (
               <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} />
