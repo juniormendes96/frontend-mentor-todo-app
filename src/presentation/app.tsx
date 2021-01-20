@@ -34,12 +34,16 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
   });
 
   useEffect(() => {
-    filterTodos({ status: state.currentStatus });
+    filterTodosWithCurrentStatus();
   }, []);
 
   const filterTodos = async (filters: ViewTodosFilters): Promise<void> => {
     const todos = await viewTodos.filter(filters);
     setState(old => ({ ...old, todos, currentStatus: filters.status }));
+  };
+
+  const filterTodosWithCurrentStatus = async (): Promise<void> => {
+    filterTodos({ status: state.currentStatus });
   };
 
   const createTodo = async (): Promise<void> => {
@@ -52,17 +56,17 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
 
   const removeTodo = async (id: number): Promise<void> => {
     await removeTodos.remove(id);
-    await filterTodos({ status: state.currentStatus });
+    await filterTodosWithCurrentStatus();
   };
 
   const clearCompletedTodos = async (): Promise<void> => {
     await removeTodos.clearCompleted();
-    await filterTodos({ status: state.currentStatus });
+    await filterTodosWithCurrentStatus();
   };
 
   const toggleTodo = async (id: number): Promise<void> => {
     await saveTodos.toggle(id);
-    await filterTodos({ status: state.currentStatus });
+    await filterTodosWithCurrentStatus();
   };
 
   return (
