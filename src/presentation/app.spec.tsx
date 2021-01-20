@@ -44,59 +44,6 @@ describe('App', () => {
     expect(viewTodosSpy.callsCount).toBe(1);
   });
 
-  test('Should call SaveTodos.create with correct values when not checked', async () => {
-    const { saveTodosSpy } = makeSut();
-
-    const description = faker.random.word();
-
-    Helper.enterNewTodo(description);
-
-    await waitFor(() => screen.getByTestId('input'));
-
-    expect(saveTodosSpy.createCallsCount).toBe(1);
-    expect(saveTodosSpy.params).toEqual({ description, completed: false });
-  });
-
-  test('Should call SaveTodos.toggle with correct id and render correctly on check click', async () => {
-    const saveTodosSpy = new SaveTodosSpy();
-    saveTodosSpy.completed = true;
-    makeSut({ saveTodosSpy });
-
-    const list = screen.getByTestId('list');
-    await waitFor(() => list);
-
-    const description = screen.getAllByTestId('description')[1];
-
-    fireEvent.click(screen.getAllByTestId('checkbox')[2]);
-
-    await waitFor(() => list);
-
-    expect(saveTodosSpy.toggleCallsCount).toBe(1);
-    expect(saveTodosSpy.id).toBe(2);
-    expect(screen.getAllByTestId('checkbox')[2]).toBeChecked();
-    expect(description).toHaveStyle('text-decoration: line-through');
-  });
-
-  test('Should call SaveTodos.toggle with correct id and render correctly on uncheck click', async () => {
-    const saveTodosSpy = new SaveTodosSpy();
-    saveTodosSpy.completed = false;
-    makeSut({ saveTodosSpy });
-
-    const list = screen.getByTestId('list');
-    await waitFor(() => list);
-
-    const description = screen.getAllByTestId('description')[2];
-
-    fireEvent.click(screen.getAllByTestId('checkbox')[3]);
-
-    await waitFor(() => list);
-
-    expect(saveTodosSpy.toggleCallsCount).toBe(1);
-    expect(saveTodosSpy.id).toBe(3);
-    expect(screen.getAllByTestId('checkbox')[3]).not.toBeChecked();
-    expect(description).not.toHaveStyle('text-decoration: line-through');
-  });
-
   test('Should call SaveTodos.create with correct values when checked', async () => {
     const { saveTodosSpy } = makeSut();
 
@@ -110,8 +57,37 @@ describe('App', () => {
     expect(saveTodosSpy.params).toEqual({ description, completed: true });
   });
 
-  test('Should call RemoveTodos.remove with correct id and remove from list', async () => {
-    const { removeTodosSpy } = makeSut();
+  test('Should call SaveTodos.create with correct values when not checked', async () => {
+    const { saveTodosSpy } = makeSut();
+
+    const description = faker.random.word();
+
+    Helper.enterNewTodo(description);
+
+    await waitFor(() => screen.getByTestId('input'));
+
+    expect(saveTodosSpy.createCallsCount).toBe(1);
+    expect(saveTodosSpy.params).toEqual({ description, completed: false });
+  });
+
+  test('Should call SaveTodos.toggle with correct id', async () => {
+    const { viewTodosSpy, saveTodosSpy } = makeSut();
+
+    const list = screen.getByTestId('list');
+    await waitFor(() => list);
+
+    fireEvent.click(screen.getAllByTestId('checkbox')[2]);
+
+    await waitFor(() => list);
+
+    expect(saveTodosSpy.toggleCallsCount).toBe(1);
+    expect(saveTodosSpy.id).toBe(2);
+    expect(viewTodosSpy.callsCount).toBe(2);
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
+  });
+
+  test('Should call RemoveTodos.remove with correct id', async () => {
+    const { viewTodosSpy, removeTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
     await waitFor(() => list);
@@ -122,26 +98,24 @@ describe('App', () => {
 
     await waitFor(() => list);
 
-    expect(list.children).toHaveLength(3);
     expect(removeTodosSpy.removeCallsCount).toBe(1);
     expect(removeTodosSpy.id).toBe(1);
-    expect(list.querySelector('#checkbox-1')).not.toBeInTheDocument();
+    expect(viewTodosSpy.callsCount).toBe(2);
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
   });
 
-  test('Should call RemoveTodos.clearCompleted and remove all items from list', async () => {
-    const { removeTodosSpy } = makeSut();
+  test('Should call RemoveTodos.clearCompleted', async () => {
+    const { viewTodosSpy, removeTodosSpy } = makeSut();
 
     const clearCompleted = screen.getByTestId('clearCompleted');
-    const list = screen.getByTestId('list');
 
     fireEvent.click(clearCompleted);
 
-    await waitFor(() => list);
+    await waitFor(() => screen.getByTestId('list'));
 
-    expect(list.children).toHaveLength(2);
     expect(removeTodosSpy.clearCompletedCallsCount).toBe(1);
-    expect(list.querySelector('#checkbox-3')).not.toBeInTheDocument();
-    expect(list.querySelector('#checkbox-4')).not.toBeInTheDocument();
+    expect(viewTodosSpy.callsCount).toBe(2);
+    expect(viewTodosSpy.filters).toEqual({ status: ViewTodosStatus.ALL });
   });
 
   test('Should clear input after creating a new todo', async () => {
@@ -187,7 +161,7 @@ describe('App', () => {
     expect(saveTodosSpy.createCallsCount).toBe(0);
   });
 
-  test('Should render correctly on init', async () => {
+  test('Should render correctly', async () => {
     const { viewTodosSpy } = makeSut();
 
     const list = screen.getByTestId('list');
@@ -221,7 +195,7 @@ describe('App', () => {
     expect(screen.getAllByTestId('checkbox')[0]).not.toBeChecked();
   });
 
-  test('Should render correctly on status option click', async () => {
+  test('Should render options correctly', async () => {
     makeSut();
 
     const activeStyle = 'color: #3a7bfd';

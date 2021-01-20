@@ -52,18 +52,17 @@ const App: React.FC<Props> = ({ viewTodos, saveTodos, removeTodos }: Props) => {
 
   const removeTodo = async (id: number): Promise<void> => {
     await removeTodos.remove(id);
-    setState(old => ({ ...old, todos: old.todos.filter(todo => todo.id !== id) }));
+    await filterTodos({ status: state.currentStatus });
   };
 
   const clearCompletedTodos = async (): Promise<void> => {
-    const todos = await removeTodos.clearCompleted();
-    setState(old => ({ ...old, todos }));
+    await removeTodos.clearCompleted();
+    await filterTodos({ status: state.currentStatus });
   };
 
   const toggleTodo = async (id: number): Promise<void> => {
-    const completed = await saveTodos.toggle(id);
-    const todos = state.todos.map(todo => (todo.id === id ? { ...todo, completed } : todo));
-    setState(old => ({ ...old, todos }));
+    await saveTodos.toggle(id);
+    await filterTodos({ status: state.currentStatus });
   };
 
   return (
