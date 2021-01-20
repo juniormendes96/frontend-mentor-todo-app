@@ -27,12 +27,12 @@ export const CheckboxContainer = styled.div`
       content: '';
       position: absolute;
       display: none;
-      left: 7.5px;
-      top: 5px;
-      width: 4px;
-      height: 9px;
+      left: 0.75rem;
+      top: 0.5rem;
+      width: 0.4rem;
+      height: 0.9rem;
       border: solid white;
-      border-width: 0 3px 3px 0;
+      border-width: 0 0.3rem 0.3rem 0;
       transform: rotate(45deg);
     }
   }
