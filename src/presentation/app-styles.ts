@@ -86,7 +86,7 @@ export const ListContainer = styled.div`
     }
 
     & > *:not(:last-child) {
-      border-bottom: 1px solid ${({ theme }) => theme.textDisabled};
+      border-bottom: 1px solid ${({ theme }) => theme.border};
     }
   }
 `;

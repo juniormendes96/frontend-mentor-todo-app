@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ListFooterContainer = styled.footer`
   height: 7rem;
-  border-top: 1px solid ${({ theme }) => theme.textDisabled};
+  border-top: 1px solid ${({ theme }) => theme.border};
   display: flex;
   align-items: center;
   justify-content: space-between;

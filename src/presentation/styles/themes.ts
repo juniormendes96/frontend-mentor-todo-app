@@ -7,6 +7,7 @@ type ThemeShared = {
 
 type Theme = {
   body: string;
+  border: string;
   mainBackground: string;
   text: string;
   textDisabled: string;
@@ -24,16 +25,18 @@ const shared: ThemeShared = {
 export const lightTheme: Theme = {
   ...shared,
   body: '#e4e5f1',
+  border: '#d2d3db',
   mainBackground: '#fafafa',
-  text: '#9394a5',
-  textDisabled: '#d2d3db',
-  textHover: '#484b6a',
-  scrollbarThumb: 'rgba(22, 23, 34, 0.1)'
+  text: '#484b6a',
+  textDisabled: '#9394a5',
+  textHover: '#161722',
+  scrollbarThumb: 'rgba(22, 23, 34, 0.2)'
 };
 
 export const darkTheme: Theme = {
   ...shared,
   body: '#161722',
+  border: '#4d5066',
   mainBackground: '#25273c',
   text: '#cacde8',
   textDisabled: '#777a92',
