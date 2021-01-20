@@ -4,22 +4,22 @@ export const CheckboxContainer = styled.div`
   height: 2.5rem;
   width: 2.5rem;
   position: relative;
-  cursor: pointer;
 
   input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
-    height: 0;
-    width: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
   }
 
   span {
     position: absolute;
     top: 0;
     left: 0;
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 100%;
+    width: 100%;
     border: 1px solid ${({ theme }) => theme.textDisabled};
     border-radius: 50%;
 
