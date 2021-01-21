@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ListFooter, ListInput, ListItem } from '@/presentation/components';
-import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from './app-styles';
+import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 

@@ -1,7 +1,7 @@
 import { FilterTodosStatus } from '@/domain/usecases';
 import React from 'react';
 
-import { ListFooterContainer, TodoStatusOption } from './list-footer-styles';
+import { ListFooterContainer, TodoStatusOption } from '@/presentation/components/list-footer/list-footer-styles';
 
 type Props = {
   currentStatus: FilterTodosStatus;

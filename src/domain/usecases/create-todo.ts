@@ -1,4 +1,4 @@
-import { Todo } from './../models/todo';
+import { Todo } from '@/domain/models';
 
 export type CreateTodoParams = {
   description: string;

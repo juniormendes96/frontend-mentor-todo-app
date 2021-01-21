@@ -1,4 +1,4 @@
-import { Todo } from '../../../domain/models/todo';
+import { Todo } from '@/domain/models';
 import { GetStorageSpy, SetStorageSpy } from '@/data/test';
 import { LocalClearCompletedTodos } from '@/data/usecases';
 import { mockTodos } from '@/domain/test';

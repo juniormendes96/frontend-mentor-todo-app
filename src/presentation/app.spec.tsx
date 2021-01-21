@@ -1,11 +1,11 @@
 import React from 'react';
 import faker from 'faker';
-
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+
 import App from '@/presentation/app';
 import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
-import { Helper } from './test';
+import { Helper } from '@/presentation/test';
 
 type SutTypes = {
   filterTodosSpy: FilterTodosSpy;

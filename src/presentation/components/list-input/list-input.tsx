@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ListInputContainer } from './list-input-styles';
+import { ListInputContainer } from '@/presentation/components/list-input/list-input-styles';
 import { Checkbox } from '@/presentation/components';
 
 type Props = {

@@ -1,6 +1,6 @@
-import { mockTodos } from './mock-todos';
+import { mockTodos } from '@/domain/test';
 import { FilterTodos, FilterTodosFilters } from '@/domain/usecases';
-import { Todo } from '../models';
+import { Todo } from '@/domain/models';
 
 export class FilterTodosSpy implements FilterTodos {
   callsCount = 0;
