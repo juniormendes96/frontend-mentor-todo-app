@@ -6,6 +6,7 @@ import App from '@/presentation/app';
 import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from './test';
+import { lightTheme } from './styles/themes';
 
 type SutTypes = {
   filterTodosSpy: FilterTodosSpy;
@@ -278,5 +279,21 @@ describe('App', () => {
 
     expect(list.children).toHaveLength(0);
     expect(screen.queryByTestId('noContent')).toBeInTheDocument();
+  });
+
+  test('Should start with light theme', async () => {
+    makeSut();
+
+    const listContainer = screen.getByTestId('listContainer');
+    const body = screen.getByTestId('body');
+    const backgroundImage = screen.getByTestId('backgroundImage');
+    const toggleDarkModeIcon = screen.getByTestId('toggleDarkModeIcon');
+
+    await waitFor(() => listContainer);
+
+    expect(listContainer).toHaveStyle('background: ' + lightTheme.mainBackground);
+    expect(body).toHaveStyle('background: ' + lightTheme.body);
+    expect(backgroundImage.getAttribute('src')).toContain('bg-desktop-light');
+    expect(toggleDarkModeIcon.getAttribute('src')).toContain('icon-moon');
   });
 });
