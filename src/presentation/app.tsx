@@ -1,14 +1,19 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ListFooter, ListInput, ListItem } from '@/presentation/components';
 import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from './app-styles';
-import { lightTheme } from '@/presentation/styles/themes';
+import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
 import backgroundDesktopLight from '@/presentation/assets/images/bg-desktop-light.jpg';
+import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
 import backgroundMobileLight from '@/presentation/assets/images/bg-mobile-light.jpg';
+import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
+
 import iconMoon from '@/presentation/assets/icons/icon-moon.svg';
+import iconSun from '@/presentation/assets/icons/icon-sun.svg';
+
 import { Todo } from '@/domain/models';
 import {
   FilterTodos,
@@ -28,7 +33,7 @@ type Props = {
   clearCompletedTodos: ClearCompletedTodos;
 };
 
-type State = {
+type MainState = {
   todos: Todo[];
   currentDescription: string;
   currentStatus: FilterTodosStatus;
@@ -36,7 +41,8 @@ type State = {
 };
 
 const App: React.FC<Props> = (props: Props) => {
-  const [state, setState] = useState<State>({
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [state, setState] = useState<MainState>({
     todos: [],
     currentDescription: '',
     currentStatus: FilterTodosStatus.ALL,
@@ -80,12 +86,12 @@ const App: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
       <BackgroundImageContainer>
         <picture>
-          <source media="(max-width: 650px)" srcSet={backgroundMobileLight} />
-          <img src={backgroundDesktopLight} alt="Background image" data-testid="backgroundImage" />
+          <source media="(max-width: 650px)" srcSet={darkMode ? backgroundMobileDark : backgroundMobileLight} />
+          <img src={darkMode ? backgroundDesktopDark : backgroundDesktopLight} alt="Background image" data-testid="backgroundImage" />
         </picture>
       </BackgroundImageContainer>
 
@@ -94,7 +100,12 @@ const App: React.FC<Props> = (props: Props) => {
       <AppContainer>
         <header>
           <h1>TODO</h1>
-          <img src={iconMoon} alt="Toggle dark mode" data-testid="toggleDarkModeIcon" />
+          <img
+            src={darkMode ? iconSun : iconMoon}
+            alt="Toggle dark mode"
+            data-testid="toggleDarkModeIcon"
+            onClick={() => setDarkMode(!darkMode)}
+          />
         </header>
         <ListInput
           value={state.currentDescription}
