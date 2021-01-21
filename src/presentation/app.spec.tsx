@@ -6,7 +6,6 @@ import App from '@/presentation/app';
 import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from './test';
-import { lightTheme } from './styles/themes';
 
 type SutTypes = {
   filterTodosSpy: FilterTodosSpy;
@@ -284,16 +283,22 @@ describe('App', () => {
   test('Should start with light theme', async () => {
     makeSut();
 
-    const listContainer = screen.getByTestId('listContainer');
-    const body = screen.getByTestId('body');
-    const backgroundImage = screen.getByTestId('backgroundImage');
+    await waitFor(() => screen.getByTestId('list'));
+
+    Helper.testTheme('light');
+  });
+
+  test('Should switch theme on button click', async () => {
+    makeSut();
+
     const toggleDarkModeIcon = screen.getByTestId('toggleDarkModeIcon');
 
-    await waitFor(() => listContainer);
+    fireEvent.click(toggleDarkModeIcon);
+    Helper.testTheme('dark');
 
-    expect(listContainer).toHaveStyle('background: ' + lightTheme.mainBackground);
-    expect(body).toHaveStyle('background: ' + lightTheme.body);
-    expect(backgroundImage.getAttribute('src')).toContain('bg-desktop-light');
-    expect(toggleDarkModeIcon.getAttribute('src')).toContain('icon-moon');
+    fireEvent.click(toggleDarkModeIcon);
+    Helper.testTheme('light');
+
+    await waitFor(() => screen.getByTestId('list'));
   });
 });
