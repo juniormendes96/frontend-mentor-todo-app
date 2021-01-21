@@ -49,13 +49,13 @@ const makeSut = ({
   };
 };
 
+const wait = () => waitFor(() => screen.getByTestId('list'));
+
 describe('App', () => {
   test('Should call FilterTodos usecase', async () => {
     const { filterTodosSpy } = makeSut();
 
-    const list = screen.getByTestId('list');
-
-    await waitFor(() => list);
+    await wait();
 
     expect(filterTodosSpy.callsCount).toBe(1);
   });
@@ -67,7 +67,7 @@ describe('App', () => {
 
     Helper.enterNewTodo(description, true);
 
-    await waitFor(() => screen.getByTestId('input'));
+    await wait();
 
     expect(createTodoSpy.callsCount).toBe(1);
     expect(createTodoSpy.params).toEqual({ description, completed: true });
@@ -80,7 +80,7 @@ describe('App', () => {
 
     Helper.enterNewTodo(description);
 
-    await waitFor(() => screen.getByTestId('input'));
+    await wait();
 
     expect(createTodoSpy.callsCount).toBe(1);
     expect(createTodoSpy.params).toEqual({ description, completed: false });
@@ -89,12 +89,11 @@ describe('App', () => {
   test('Should call ToggleTodo usecase with correct id', async () => {
     const { filterTodosSpy, toggleTodoSpy } = makeSut();
 
-    const list = screen.getByTestId('list');
-    await waitFor(() => list);
+    await wait();
 
     fireEvent.click(screen.getAllByTestId('checkbox')[2]);
 
-    await waitFor(() => list);
+    await wait();
 
     expect(toggleTodoSpy.callsCount).toBe(1);
     expect(toggleTodoSpy.id).toBe(2);
@@ -105,14 +104,13 @@ describe('App', () => {
   test('Should call RemoveTodo usecase with correct id', async () => {
     const { filterTodosSpy, removeTodoSpy } = makeSut();
 
-    const list = screen.getByTestId('list');
-    await waitFor(() => list);
+    await wait();
 
     const removeButtons = screen.getAllByTestId('remove');
 
     fireEvent.click(removeButtons[0]);
 
-    await waitFor(() => list);
+    await wait();
 
     expect(removeTodoSpy.callsCount).toBe(1);
     expect(removeTodoSpy.id).toBe(1);
@@ -127,7 +125,7 @@ describe('App', () => {
 
     fireEvent.click(clearCompleted);
 
-    await waitFor(() => screen.getByTestId('list'));
+    await wait();
 
     expect(clearCompletedTodosSpy.callsCount).toBe(1);
     expect(filterTodosSpy.callsCount).toBe(2);
@@ -140,7 +138,8 @@ describe('App', () => {
     Helper.enterNewTodo();
 
     const input = screen.getByTestId('input');
-    await waitFor(() => input);
+
+    await wait();
 
     expect(input).toHaveValue('');
   });
@@ -153,7 +152,7 @@ describe('App', () => {
 
     Helper.enterNewTodo(description);
 
-    await waitFor(() => list);
+    await wait();
 
     expect(list.children).toHaveLength(5);
     expect(screen.getAllByTestId('description')[0]).toHaveTextContent(description);
@@ -162,17 +161,15 @@ describe('App', () => {
   test('Should not call CreateTodo usecase when no description is provided', async () => {
     const { createTodoSpy } = makeSut();
 
-    const input = screen.getByTestId('input');
+    await wait();
 
-    await waitFor(() => input);
-
-    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+    fireEvent.keyUp(screen.getByTestId('input'), { key: 'Enter', code: 'Enter' });
 
     expect(createTodoSpy.callsCount).toBe(0);
 
     Helper.enterNewTodo('   ');
 
-    await waitFor(() => input);
+    await wait();
 
     expect(createTodoSpy.callsCount).toBe(0);
   });
@@ -182,7 +179,7 @@ describe('App', () => {
 
     const list = screen.getByTestId('list');
 
-    await waitFor(() => list);
+    await wait();
 
     const descriptions = screen.getAllByTestId('description');
 
@@ -216,7 +213,6 @@ describe('App', () => {
 
     const activeStyle = 'color: #3a7bfd';
 
-    const list = screen.getByTestId('list');
     const liAll = screen.getByTestId('all');
     const liActive = screen.getByTestId('active');
     const liCompleted = screen.getByTestId('completed');
@@ -226,19 +222,19 @@ describe('App', () => {
     expect(liCompleted).not.toHaveStyle(activeStyle);
 
     liActive.click();
-    await waitFor(() => list);
+    await wait();
     expect(liAll).not.toHaveStyle(activeStyle);
     expect(liActive).toHaveStyle(activeStyle);
     expect(liCompleted).not.toHaveStyle(activeStyle);
 
     liCompleted.click();
-    await waitFor(() => list);
+    await wait();
     expect(liAll).not.toHaveStyle(activeStyle);
     expect(liActive).not.toHaveStyle(activeStyle);
     expect(liCompleted).toHaveStyle(activeStyle);
 
     liAll.click();
-    await waitFor(() => list);
+    await wait();
     expect(liAll).toHaveStyle(activeStyle);
     expect(liActive).not.toHaveStyle(activeStyle);
     expect(liCompleted).not.toHaveStyle(activeStyle);
@@ -263,7 +259,7 @@ describe('App', () => {
     expect(filterTodosSpy.callsCount).toBe(4);
     expect(filterTodosSpy.filters).toEqual({ status: FilterTodosStatus.ALL });
 
-    await waitFor(() => screen.getByTestId('list'));
+    await wait();
   });
 
   test('Should render noContent if there are no todos to show', async () => {
@@ -274,7 +270,7 @@ describe('App', () => {
 
     const list = screen.getByTestId('list');
 
-    await waitFor(() => list);
+    await wait();
 
     expect(list.children).toHaveLength(0);
     expect(screen.queryByTestId('noContent')).toBeInTheDocument();
@@ -283,7 +279,7 @@ describe('App', () => {
   test('Should start with light theme', async () => {
     makeSut();
 
-    await waitFor(() => screen.getByTestId('list'));
+    await wait();
 
     Helper.testTheme('light');
   });
@@ -299,6 +295,6 @@ describe('App', () => {
     fireEvent.click(toggleDarkModeIcon);
     Helper.testTheme('light');
 
-    await waitFor(() => screen.getByTestId('list'));
+    await wait();
   });
 });
