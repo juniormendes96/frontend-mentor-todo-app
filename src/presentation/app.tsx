@@ -3,12 +3,12 @@ import { ThemeProvider } from 'styled-components';
 
 import { ListFooter, ListInput, ListItem } from '@/presentation/components';
 import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from './app-styles';
-import { darkTheme } from '@/presentation/styles/themes';
+import { lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
-import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
-import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
-import iconSun from '@/presentation/assets/icons/icon-sun.svg';
+import backgroundDesktopLight from '@/presentation/assets/images/bg-desktop-light.jpg';
+import backgroundMobileLight from '@/presentation/assets/images/bg-mobile-light.jpg';
+import iconMoon from '@/presentation/assets/icons/icon-moon.svg';
 import { Todo } from '@/domain/models';
 import {
   FilterTodos,
@@ -80,21 +80,21 @@ const App: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
       <BackgroundImageContainer>
         <picture>
-          <source media="(max-width: 650px)" srcSet={backgroundMobileDark} />
-          <img src={backgroundDesktopDark} alt="Background image" />
+          <source media="(max-width: 650px)" srcSet={backgroundMobileLight} />
+          <img src={backgroundDesktopLight} alt="Background image" data-testid="backgroundImage" />
         </picture>
       </BackgroundImageContainer>
 
-      <Body />
+      <Body data-testid="body" />
 
       <AppContainer>
         <header>
           <h1>TODO</h1>
-          <img src={iconSun} alt="Toggle dark mode" />
+          <img src={iconMoon} alt="Toggle dark mode" data-testid="toggleDarkModeIcon" />
         </header>
         <ListInput
           value={state.currentDescription}
@@ -104,7 +104,7 @@ const App: React.FC<Props> = (props: Props) => {
           onCheckboxChange={checked => setState(old => ({ ...old, currentCompletedOption: checked }))}
           placeholder="Create a new todo..."
         />
-        <ListContainer>
+        <ListContainer data-testid="listContainer">
           {!state.todos.length && <NoContent data-testid="noContent">There are no todos to show.</NoContent>}
           <ul data-testid="list">
             {state.todos.map(todo => (
