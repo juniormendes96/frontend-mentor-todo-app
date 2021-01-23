@@ -21,9 +21,14 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:ci
 
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.REPO_TOKEN }}
+
       - name: Deploy to GH Pages
         run: |
-          git config --global user.email ${{secrets.EMAIL}}
-          git config --global user.name ${{secrets.USERNAME}}
-          git remote set-url origin https://${{secrets.REPO_TOKEN}}@github.com/${{secrets.USERNAME}}/frontend-mentor-todo-app.git
+          git config --global user.email ${{ secrets.EMAIL }}
+          git config --global user.name ${{ secrets.USERNAME }}
+          git remote set-url origin https://${{ secrets.REPO_TOKEN }}@github.com/${{ secrets.USERNAME }}/frontend-mentor-todo-app.git
           npm run deploy
