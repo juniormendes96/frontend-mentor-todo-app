@@ -1,7 +1,8 @@
+const common = require('./webpack.common');
 const { merge } = require('webpack-merge');
-const prod = require('./webpack.prod');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = merge(prod, {
+module.exports = merge(common, {
   mode: 'development',
   devServer: {
     contentBase: './public',
@@ -9,5 +10,10 @@ module.exports = merge(prod, {
     historyApiFallback: true,
     port: 3000
   },
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './template.dev.html'
+    })
+  ]
 });
