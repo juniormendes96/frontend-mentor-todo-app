@@ -1,26 +1,28 @@
 {
-  "name": "frontend-mentor-todolist-challenge",
+  "name": "frontend-mentor-todo-app",
   "version": "1.0.0",
-  "description": "This is a [Frontend Mentor](https://www.frontendmentor.io) todo-list app challenge.",
+  "description": "Frontend Mentor todo-list app challenge",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js --port 3000",
     "build": "webpack --config webpack.prod.js",
     "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
-    "test:ci": "npm test -- --coverage"
+    "test:ci": "npm test -- --coverage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/juniormendes96/frontend-mentor-todolist-challenge.git"
+    "url": "git+https://github.com/juniormendes96/frontend-mentor-todo-app.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/juniormendes96/frontend-mentor-todolist-challenge/issues"
+    "url": "https://github.com/juniormendes96/frontend-mentor-todo-app/issues"
   },
-  "homepage": "https://github.com/juniormendes96/frontend-mentor-todolist-challenge#readme",
+  "homepage": "https://github.com/juniormendes96/frontend-mentor-todo-app#readme",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
@@ -32,6 +34,7 @@
     "@types/styled-components": "^5.1.7",
     "clean-webpack-plugin": "^3.0.0",
     "faker": "^5.1.0",
+    "gh-pages": "^3.1.0",
     "git-commit-msg-linter": "^3.0.0",
     "html-webpack-plugin": "^4.5.1",
     "husky": "^4.3.7",
