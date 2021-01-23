@@ -6,6 +6,7 @@ import App from '@/presentation/app';
 import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from '@/presentation/test';
+import * as DarkModeAdapter from '@/main/adapters/dark-mode/dark-mode-adapter';
 
 type SutTypes = {
   filterTodosSpy: FilterTodosSpy;
@@ -50,6 +51,8 @@ const makeSut = ({
 };
 
 const wait = () => waitFor(() => screen.getByTestId('list'));
+
+jest.mock('@/infra/cache/local-storage-adapter/local-storage-adapter');
 
 describe('App', () => {
   test('Should call FilterTodos usecase', async () => {
@@ -276,24 +279,31 @@ describe('App', () => {
     expect(screen.queryByTestId('noContent')).toBeInTheDocument();
   });
 
-  test('Should start with light theme', async () => {
+  test('Should start with darkModeAdapter current theme', async () => {
+    const getDarkModeAdapterSpy = jest.spyOn(DarkModeAdapter, 'getDarkModeAdapter').mockReturnValueOnce(true);
+
     makeSut();
 
     await wait();
 
-    Helper.testTheme('light');
+    expect(getDarkModeAdapterSpy).toHaveBeenCalled();
+    Helper.testTheme('dark');
   });
 
   test('Should switch theme on button click', async () => {
+    const setDarkModeAdapterSpy = jest.spyOn(DarkModeAdapter, 'setDarkModeAdapter').mockImplementation(() => {});
+
     makeSut();
 
     const toggleDarkModeIcon = screen.getByTestId('toggleDarkModeIcon');
 
     fireEvent.click(toggleDarkModeIcon);
     Helper.testTheme('dark');
+    expect(setDarkModeAdapterSpy).toHaveBeenCalledWith(true);
 
     fireEvent.click(toggleDarkModeIcon);
     Helper.testTheme('light');
+    expect(setDarkModeAdapterSpy).toHaveBeenCalledWith(false);
 
     await wait();
   });
