@@ -1,25 +1,28 @@
 import styled from 'styled-components';
 
-export const CheckboxContainer = styled.div`
-  height: 2.5rem;
-  width: 2.5rem;
+export const CheckboxContainer = styled.label`
+  display: block;
   position: relative;
+  cursor: pointer;
+  height: 2.6rem;
+  width: 2.6rem;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 
   input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
-    height: 100%;
-    width: 100%;
-    z-index: 2;
+    height: 0;
+    width: 0;
   }
 
   span {
     position: absolute;
-    top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: 2.5rem;
+    width: 2.5rem;
     border: 1px solid ${({ theme }) => theme.textDisabled};
     border-radius: 50%;
 
@@ -34,6 +37,8 @@ export const CheckboxContainer = styled.div`
       border: solid white;
       border-width: 0 0.3rem 0.3rem 0;
       transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
     }
   }
 
