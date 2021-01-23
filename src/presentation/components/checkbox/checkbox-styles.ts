@@ -43,7 +43,12 @@ export const CheckboxContainer = styled.label`
   }
 
   &:hover input:not(:checked) ~ span {
-    // linear-gradient border
+    border: double 1px transparent;
+    border-radius: 50%;
+    background-image: linear-gradient(${({ theme }) => theme.mainBackground}, ${({ theme }) => theme.mainBackground}),
+      radial-gradient(circle at top left, ${({ theme }) => theme.checkBackgroundPrimary}, ${({ theme }) => theme.checkBackgroundSecondary});
+    background-origin: border-box;
+    background-clip: content-box, border-box;
   }
 
   input:checked ~ span {
