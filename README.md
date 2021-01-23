@@ -1,3 +1,5 @@
+![CI/CD badge](https://github.com/juniormendes96/frontend-mentor-todo-app/workflows/CI%2FCD/badge.svg)
+
 # Frontend Mentor - Todo app
 
 [WIP] This is a [Frontend Mentor](https://www.frontendmentor.io) todo-list app challenge. https://juniormendes96.github.io/frontend-mentor-todo-app
