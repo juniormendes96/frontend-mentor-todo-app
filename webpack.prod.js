@@ -5,6 +5,9 @@ const { merge } = require('webpack-merge');
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    publicPath: '/frontend-mentor-todo-app'
+  },
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM'

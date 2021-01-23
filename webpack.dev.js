@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'development',
+  output: {
+    publicPath: '/'
+  },
   devServer: {
     contentBase: './public',
     writeToDisk: true,

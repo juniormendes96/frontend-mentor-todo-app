@@ -5,8 +5,7 @@ module.exports = {
   entry: './src/main/index.ts',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'main-bundle-[fullhash].js',
-    publicPath: '/'
+    filename: 'main-bundle-[fullhash].js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
