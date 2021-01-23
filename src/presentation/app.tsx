@@ -6,6 +6,8 @@ import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent 
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
+import { useDarkMode } from '@/presentation/hooks';
+
 import backgroundDesktopLight from '@/presentation/assets/images/bg-desktop-light.jpg';
 import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
 import backgroundMobileLight from '@/presentation/assets/images/bg-mobile-light.jpg';
@@ -41,7 +43,7 @@ type MainState = {
 };
 
 const App: React.FC<Props> = (props: Props) => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [darkMode, toggleDarkMode] = useDarkMode();
   const [state, setState] = useState<MainState>({
     todos: [],
     currentDescription: '',
@@ -104,7 +106,7 @@ const App: React.FC<Props> = (props: Props) => {
             src={darkMode ? iconSun : iconMoon}
             alt="Toggle dark mode"
             data-testid="toggleDarkModeIcon"
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={() => toggleDarkMode()}
           />
         </header>
         <ListInput
