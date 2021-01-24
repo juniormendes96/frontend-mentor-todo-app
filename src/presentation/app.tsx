@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { ListActions, ListInput, ListItem } from '@/presentation/components';
+import { ListActions, ListFooter, ListInput, ListItem } from '@/presentation/components';
 import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
@@ -131,6 +131,7 @@ const App: React.FC<Props> = (props: Props) => {
             onClearCompletedClick={clearCompletedTodos}
           />
         </ListContainer>
+        <ListFooter currentStatus={state.currentStatus} onStatusClick={status => filterTodos({ status })} />
       </AppContainer>
     </ThemeProvider>
   );

@@ -15,6 +15,8 @@ export const ListItemContainer = styled.li`
 
   img {
     cursor: pointer;
+    width: 2rem;
+    height: 2rem;
   }
 `;
 

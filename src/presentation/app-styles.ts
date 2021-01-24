@@ -35,6 +35,10 @@ export const AppContainer = styled.div`
     width: 90vw;
   }
 
+  @media (max-width: 600px) {
+    height: 85vh;
+  }
+
   header {
     display: flex;
     justify-content: space-between;
