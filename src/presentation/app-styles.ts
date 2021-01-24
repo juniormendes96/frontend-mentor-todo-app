@@ -59,8 +59,8 @@ export const AppContainer = styled.div`
   }
 
   footer {
+    display: none;
     height: 7rem;
-    display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 2.5rem;
@@ -68,8 +68,8 @@ export const AppContainer = styled.div`
     border-radius: 0.6rem;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 
-    @media (min-width: ${small}) {
-      display: none;
+    @media (max-width: ${small}) {
+      display: flex;
     }
   }
 `;
