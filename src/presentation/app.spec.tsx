@@ -18,19 +18,14 @@ type SutTypes = {
 
 type SutParams = {
   filterTodosSpy?: FilterTodosSpy;
-  createTodoSpy?: CreateTodoSpy;
-  toggleTodoSpy?: ToggleTodoSpy;
-  removeTodoSpy?: RemoveTodoSpy;
-  clearCompletedTodosSpy?: ClearCompletedTodosSpy;
 };
 
-const makeSut = ({
-  filterTodosSpy = new FilterTodosSpy(),
-  toggleTodoSpy = new ToggleTodoSpy(),
-  createTodoSpy = new CreateTodoSpy(),
-  removeTodoSpy = new RemoveTodoSpy(),
-  clearCompletedTodosSpy = new ClearCompletedTodosSpy()
-}: SutParams = {}): SutTypes => {
+const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): SutTypes => {
+  const toggleTodoSpy = new ToggleTodoSpy();
+  const createTodoSpy = new CreateTodoSpy();
+  const removeTodoSpy = new RemoveTodoSpy();
+  const clearCompletedTodosSpy = new ClearCompletedTodosSpy();
+
   render(
     <App
       filterTodos={filterTodosSpy}
