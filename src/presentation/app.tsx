@@ -127,8 +127,8 @@ const App: React.FC<Props> = (props: Props) => {
           <ListFooter
             currentStatus={state.currentStatus}
             itemsLeft={state.todos.filter(todo => !todo.completed).length}
-            statusClick={status => filterTodos({ status })}
-            clearCompletedClick={clearCompletedTodos}
+            onStatusClick={status => filterTodos({ status })}
+            onClearCompletedClick={clearCompletedTodos}
           />
         </ListContainer>
       </AppContainer>

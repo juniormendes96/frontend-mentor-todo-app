@@ -6,11 +6,11 @@ import { ListFooterContainer, TodoStatusOption } from '@/presentation/components
 type Props = {
   currentStatus: FilterTodosStatus;
   itemsLeft: number;
-  statusClick?: (status: FilterTodosStatus) => void;
-  clearCompletedClick?: () => void;
+  onStatusClick?: (status: FilterTodosStatus) => void;
+  onClearCompletedClick?: () => void;
 };
 
-const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, statusClick = () => {}, clearCompletedClick = () => {} }: Props) => {
+const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
   return (
     <ListFooterContainer>
       <span data-testid="itemsLeft">{itemsLeft} items left</span>
@@ -18,26 +18,26 @@ const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, statusClick = (
         <TodoStatusOption
           data-testid="all"
           active={currentStatus === FilterTodosStatus.ALL}
-          onClick={() => statusClick(FilterTodosStatus.ALL)}
+          onClick={() => onStatusClick(FilterTodosStatus.ALL)}
         >
           All
         </TodoStatusOption>
         <TodoStatusOption
           data-testid="active"
           active={currentStatus === FilterTodosStatus.ACTIVE}
-          onClick={() => statusClick(FilterTodosStatus.ACTIVE)}
+          onClick={() => onStatusClick(FilterTodosStatus.ACTIVE)}
         >
           Active
         </TodoStatusOption>
         <TodoStatusOption
           data-testid="completed"
           active={currentStatus === FilterTodosStatus.COMPLETED}
-          onClick={() => statusClick(FilterTodosStatus.COMPLETED)}
+          onClick={() => onStatusClick(FilterTodosStatus.COMPLETED)}
         >
           Completed
         </TodoStatusOption>
       </ul>
-      <a data-testid="clearCompleted" onClick={() => clearCompletedClick()}>
+      <a data-testid="clearCompleted" onClick={() => onClearCompletedClick()}>
         Clear completed
       </a>
     </ListFooterContainer>
