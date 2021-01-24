@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ListFooterContainer = styled.footer`
+export const ListActionsContainer = styled.div`
   height: 7rem;
   border-top: 1px solid ${({ theme }) => theme.border};
   display: flex;
@@ -28,6 +28,10 @@ export const ListFooterContainer = styled.footer`
       &:not(:last-child) {
         margin-right: 3rem;
       }
+    }
+
+    @media (max-width: 600px) {
+      display: none;
     }
   }
 

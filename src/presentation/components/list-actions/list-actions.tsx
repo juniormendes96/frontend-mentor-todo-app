@@ -1,7 +1,7 @@
-import { FilterTodosStatus } from '@/domain/usecases';
 import React from 'react';
 
-import { ListFooterContainer, TodoStatusOption } from '@/presentation/components/list-footer/list-footer-styles';
+import { FilterTodosStatus } from '@/domain/usecases';
+import { ListActionsContainer, TodoStatusOption } from '@/presentation/components/list-actions/list-actions-styles';
 
 type Props = {
   currentStatus: FilterTodosStatus;
@@ -10,9 +10,9 @@ type Props = {
   onClearCompletedClick?: () => void;
 };
 
-const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
+const ListActions: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
   return (
-    <ListFooterContainer>
+    <ListActionsContainer>
       <span data-testid="itemsLeft">{itemsLeft} items left</span>
       <ul>
         <TodoStatusOption
@@ -40,8 +40,8 @@ const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick =
       <a data-testid="clearCompleted" onClick={() => onClearCompletedClick()}>
         Clear completed
       </a>
-    </ListFooterContainer>
+    </ListActionsContainer>
   );
 };
 
-export default ListFooter;
+export default ListActions;

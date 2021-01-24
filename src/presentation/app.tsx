@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { ListFooter, ListInput, ListItem } from '@/presentation/components';
+import { ListActions, ListInput, ListItem } from '@/presentation/components';
 import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
@@ -124,7 +124,7 @@ const App: React.FC<Props> = (props: Props) => {
               <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} />
             ))}
           </ul>
-          <ListFooter
+          <ListActions
             currentStatus={state.currentStatus}
             itemsLeft={state.todos.filter(todo => !todo.completed).length}
             onStatusClick={status => filterTodos({ status })}
