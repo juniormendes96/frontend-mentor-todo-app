@@ -1,27 +1,24 @@
 import React from 'react';
 
 import { FilterTodosStatus } from '@/domain/usecases';
-import { ListFooterContainer, TodoStatusOption } from '@/presentation/components/list-footer/list-footer-styles';
+import { ListFooterContainer } from '@/presentation/components/list-footer/list-footer-styles';
+import { ListStatusOptions } from '@/presentation/components';
 
 type Props = {
   currentStatus: FilterTodosStatus;
+  itemsLeft: number;
   onStatusClick?: (status: FilterTodosStatus) => void;
+  onClearCompletedClick?: () => void;
 };
 
-const ListFooter: React.FC<Props> = ({ currentStatus, onStatusClick = () => {} }: Props) => {
+const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
   return (
     <ListFooterContainer>
-      <ul>
-        <TodoStatusOption active={currentStatus === FilterTodosStatus.ALL} onClick={() => onStatusClick(FilterTodosStatus.ALL)}>
-          All
-        </TodoStatusOption>
-        <TodoStatusOption active={currentStatus === FilterTodosStatus.ACTIVE} onClick={() => onStatusClick(FilterTodosStatus.ACTIVE)}>
-          Active
-        </TodoStatusOption>
-        <TodoStatusOption active={currentStatus === FilterTodosStatus.COMPLETED} onClick={() => onStatusClick(FilterTodosStatus.COMPLETED)}>
-          Completed
-        </TodoStatusOption>
-      </ul>
+      <span data-testid="itemsLeft">{itemsLeft} items left</span>
+      <ListStatusOptions currentStatus={currentStatus} onStatusClick={onStatusClick} />
+      <a data-testid="clearCompleted" onClick={() => onClearCompletedClick()}>
+        Clear completed
+      </a>
     </ListFooterContainer>
   );
 };

@@ -216,9 +216,9 @@ describe('App', () => {
 
     const activeStyle = 'color: #3a7bfd';
 
-    const liAll = screen.getByTestId('all');
-    const liActive = screen.getByTestId('active');
-    const liCompleted = screen.getByTestId('completed');
+    const liAll = screen.getAllByTestId('all')[0];
+    const liActive = screen.getAllByTestId('active')[0];
+    const liCompleted = screen.getAllByTestId('completed')[0];
 
     expect(liAll).toHaveStyle(activeStyle);
     expect(liActive).not.toHaveStyle(activeStyle);
@@ -246,9 +246,9 @@ describe('App', () => {
   test('Should call FilterTodos usecase with correct filters on status options click', async () => {
     const { filterTodosSpy } = makeSut();
 
-    const liAll = screen.getByTestId('all');
-    const liActive = screen.getByTestId('active');
-    const liCompleted = screen.getByTestId('completed');
+    const liAll = screen.getAllByTestId('all')[0];
+    const liActive = screen.getAllByTestId('active')[0];
+    const liCompleted = screen.getAllByTestId('completed')[0];
 
     liActive.click();
     expect(filterTodosSpy.callsCount).toBe(2);
