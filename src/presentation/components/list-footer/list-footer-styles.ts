@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { small } from '@/presentation/styles/breakpoints';
 
 export const ListFooterContainer = styled.footer`
   height: 7rem;
@@ -10,7 +11,7 @@ export const ListFooterContainer = styled.footer`
   border-radius: 0.6rem;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 
-  @media (min-width: 600px) {
+  @media (min-width: ${small}) {
     display: none;
   }
 

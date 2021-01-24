@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { medium, large } from '@/presentation/styles/breakpoints';
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -8,11 +9,11 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${large}) {
       font-size: 56.25%;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: ${medium}) {
       font-size: 50%;
     }
   }

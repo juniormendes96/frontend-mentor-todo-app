@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { small, medium, large } from '@/presentation/styles/breakpoints';
 
 export const Body = styled.div`
   height: 62vh;
@@ -27,15 +28,15 @@ export const AppContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  @media (max-width: 1350px) {
+  @media (max-width: ${large}) {
     width: 60vw;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: ${medium}) {
     width: 90vw;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: ${small}) {
     height: 85vh;
   }
 

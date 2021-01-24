@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { small } from '@/presentation/styles/breakpoints';
 
 export const ListActionsContainer = styled.div`
   height: 7rem;
@@ -30,7 +31,7 @@ export const ListActionsContainer = styled.div`
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: ${small}) {
       display: none;
     }
   }
