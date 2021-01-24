@@ -7,9 +7,6 @@ export const CheckboxContainer = styled.label`
   height: 2.6rem;
   width: 2.6rem;
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 
   input {
     position: absolute;

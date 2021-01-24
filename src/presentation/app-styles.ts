@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const Body = styled.div`
-  height: 65vh;
+  height: 62vh;
   background: ${({ theme }) => theme.body};
 `;
 
 export const BackgroundImageContainer = styled.div`
   overflow: hidden;
-  height: 35vh;
+  height: 38vh;
   width: 100%;
 
   img {

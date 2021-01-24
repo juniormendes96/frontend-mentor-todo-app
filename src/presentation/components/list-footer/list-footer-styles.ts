@@ -33,6 +33,7 @@ export const ListFooterContainer = styled.footer`
 
   a {
     cursor: pointer;
+    user-select: none;
 
     &:hover {
       color: ${({ theme }) => theme.textHover};
@@ -42,6 +43,7 @@ export const ListFooterContainer = styled.footer`
 
 export const TodoStatusOption = styled.li<{ active?: boolean }>`
   color: ${({ theme, active }) => (active ? theme.textActive : theme.textDisabled)};
+  user-select: none;
 
   &:hover {
     color: ${({ theme, active }) => (active ? theme.textActive : theme.textHover)};
