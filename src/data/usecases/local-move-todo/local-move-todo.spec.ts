@@ -43,4 +43,13 @@ describe('LocalMoveTodo', () => {
     expect(reorderedTodos[1].id).toBe(1);
     expect(setStorageSpy.value).toEqual(reorderedTodos);
   });
+
+  test('Should keep todo in the same position', async () => {
+    const { sut, setStorageSpy } = makeSut();
+
+    const todos = await sut.invoke(1, 0);
+
+    expect(todos[0].id).toBe(1);
+    expect(setStorageSpy.value).toEqual(todos);
+  });
 });
