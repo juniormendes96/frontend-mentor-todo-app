@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 import { ThemeProvider } from 'styled-components';
 
 import { ListFooter, ListInput, ListItem, ListStatusOptions } from '@/presentation/components';
-import { Body, BackgroundImageContainer, AppContainer, ListContainer, NoContent } from '@/presentation/app-styles';
+import { Body, Main, ListContainer, NoContent } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
 import { useDarkMode } from '@/presentation/hooks';
-
-import backgroundDesktopLight from '@/presentation/assets/images/bg-desktop-light.jpg';
-import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
-import backgroundMobileLight from '@/presentation/assets/images/bg-mobile-light.jpg';
-import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
 
 import iconMoon from '@/presentation/assets/icons/icon-moon.svg';
 import iconSun from '@/presentation/assets/icons/icon-sun.svg';
@@ -87,54 +83,59 @@ const App: React.FC<Props> = (props: Props) => {
     await filterTodosWithCurrentStatus();
   };
 
+  const onDragEnd = (result: DropResult, provided: ResponderProvided): void => {};
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
-      <BackgroundImageContainer>
-        <picture>
-          <source media="(max-width: 650px)" srcSet={darkMode ? backgroundMobileDark : backgroundMobileLight} />
-          <img src={darkMode ? backgroundDesktopDark : backgroundDesktopLight} alt="Background image" data-testid="backgroundImage" />
-        </picture>
-      </BackgroundImageContainer>
-
-      <Body data-testid="body" />
-
-      <AppContainer>
-        <header>
-          <h1>TODO</h1>
-          <img
-            src={darkMode ? iconSun : iconMoon}
-            alt="Toggle dark mode"
-            data-testid="toggleDarkModeIcon"
-            onClick={() => toggleDarkMode()}
+      <Body darkMode={darkMode} data-testid="body">
+        <Main>
+          <header>
+            <h1>TODO</h1>
+            <img
+              src={darkMode ? iconSun : iconMoon}
+              alt="Toggle dark mode"
+              data-testid="toggleDarkModeIcon"
+              onClick={() => toggleDarkMode()}
+            />
+          </header>
+          <ListInput
+            value={state.currentDescription}
+            checked={state.currentCompletedOption}
+            onChange={event => setState(old => ({ ...old, currentDescription: event.target.value }))}
+            onKeyUp={event => event.key === 'Enter' && createTodo()}
+            onCheckboxChange={checked => setState(old => ({ ...old, currentCompletedOption: checked }))}
+            placeholder="Create a new todo..."
           />
-        </header>
-        <ListInput
-          value={state.currentDescription}
-          checked={state.currentCompletedOption}
-          onChange={event => setState(old => ({ ...old, currentDescription: event.target.value }))}
-          onKeyUp={event => event.key === 'Enter' && createTodo()}
-          onCheckboxChange={checked => setState(old => ({ ...old, currentCompletedOption: checked }))}
-          placeholder="Create a new todo..."
-        />
-        <ListContainer data-testid="listContainer">
-          {!state.todos.length && <NoContent data-testid="noContent">There are no todos to show.</NoContent>}
-          <ul data-testid="list">
-            {state.todos.map(todo => (
-              <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} />
-            ))}
-          </ul>
-          <ListFooter
-            currentStatus={state.currentStatus}
-            itemsLeft={state.todos.filter(todo => !todo.completed).length}
-            onStatusClick={status => filterTodos({ status })}
-            onClearCompletedClick={clearCompletedTodos}
-          />
-        </ListContainer>
-        <footer>
-          <ListStatusOptions currentStatus={state.currentStatus} onStatusClick={status => filterTodos({ status })} />
-        </footer>
-      </AppContainer>
+          <ListContainer data-testid="listContainer">
+            {!state.todos.length && <NoContent data-testid="noContent">There are no todos to show.</NoContent>}
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="droppable">
+                {provided => (
+                  <ul {...provided.droppableProps} ref={provided.innerRef} data-testid="list">
+                    {state.todos.map((todo, index) => (
+                      <Draggable key={todo.id} draggableId={String(todo.id)} index={index}>
+                        {provided => <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} provided={provided} />}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+
+            <ListFooter
+              currentStatus={state.currentStatus}
+              itemsLeft={state.todos.filter(todo => !todo.completed).length}
+              onStatusClick={status => filterTodos({ status })}
+              onClearCompletedClick={clearCompletedTodos}
+            />
+          </ListContainer>
+          <footer>
+            <ListStatusOptions currentStatus={state.currentStatus} onStatusClick={status => filterTodos({ status })} />
+          </footer>
+        </Main>
+      </Body>
     </ThemeProvider>
   );
 };

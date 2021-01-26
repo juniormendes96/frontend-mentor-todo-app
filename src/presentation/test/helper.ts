@@ -21,7 +21,6 @@ export const enterNewTodo = (description = faker.random.word(), checked = false)
 export const testTheme = (theme: 'light' | 'dark'): void => {
   const listContainer = screen.getByTestId('listContainer');
   const body = screen.getByTestId('body');
-  const backgroundImage = screen.getByTestId('backgroundImage');
   const toggleDarkModeIcon = screen.getByTestId('toggleDarkModeIcon');
 
   const mainBackground = theme === 'light' ? lightTheme.mainBackground : darkTheme.mainBackground;
@@ -31,7 +30,7 @@ export const testTheme = (theme: 'light' | 'dark'): void => {
 
   expect(listContainer).toHaveStyle('background: ' + mainBackground);
   expect(body).toHaveStyle('background: ' + bodyBackground);
-  expect(backgroundImage.getAttribute('src')).toContain(backgroundImageName);
+  expect(body).toHaveStyle(`background-image: url(${backgroundImageName}.jpg)`);
   expect(toggleDarkModeIcon.getAttribute('src')).toContain(toggleDarkModeIconName);
 };
 

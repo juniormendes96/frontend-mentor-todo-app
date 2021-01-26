@@ -1,32 +1,33 @@
 import styled from 'styled-components';
 import { small, medium, large } from '@/presentation/styles/breakpoints';
 
-export const Body = styled.div`
-  height: 62vh;
+import backgroundDesktopLight from '@/presentation/assets/images/bg-desktop-light.jpg';
+import backgroundDesktopDark from '@/presentation/assets/images/bg-desktop-dark.jpg';
+import backgroundMobileLight from '@/presentation/assets/images/bg-mobile-light.jpg';
+import backgroundMobileDark from '@/presentation/assets/images/bg-mobile-dark.jpg';
+
+export const Body = styled.div<{ darkMode: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
   background: ${({ theme }) => theme.body};
-`;
+  background-image: url(${({ darkMode }) => (darkMode ? backgroundDesktopDark : backgroundDesktopLight)});
+  background-repeat: no-repeat;
+  background-size: 100vw 38vh;
 
-export const BackgroundImageContainer = styled.div`
-  overflow: hidden;
-  height: 38vh;
-  width: 100%;
-
-  img {
-    width: 100%;
-    height: 100%;
+  @media (max-width: ${small}) {
+    background-image: url(${({ darkMode }) => (darkMode ? backgroundMobileDark : backgroundMobileLight)});
   }
 `;
 
-export const AppContainer = styled.div`
+export const Main = styled.main`
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2.5rem;
   height: 70vh;
   width: 40vw;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
   @media (max-width: ${large}) {
     width: 60vw;
