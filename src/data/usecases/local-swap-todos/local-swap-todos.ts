@@ -7,11 +7,11 @@ export class LocalSwapTodos implements SwapTodos {
 
   invoke(id: number, newIndex: number): Promise<Todo[]> {
     const todos = this.getTodosFromStorage();
-    const todo = todos.find(todo => todo.id === id);
+    const newPositionTodo = todos.find(todo => todo.id === id);
     const oldPositionTodo = todos[newIndex];
-    const oldIndex = todos.indexOf(todo);
+    const oldIndex = todos.indexOf(newPositionTodo);
 
-    todos[newIndex] = todo;
+    todos[newIndex] = newPositionTodo;
     todos[oldIndex] = oldPositionTodo;
 
     this.setStorage.set('todos', todos);
