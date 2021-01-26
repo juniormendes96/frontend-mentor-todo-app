@@ -1,5 +1,5 @@
 import { Todo } from '@/domain/models';
 
-export interface MoveTodo {
+export interface SwapTodos {
   invoke(id: number, newIndex: number): Promise<Todo[]>;
 }

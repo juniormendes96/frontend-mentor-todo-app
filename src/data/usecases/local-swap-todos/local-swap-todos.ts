@@ -1,8 +1,8 @@
 import { GetStorage, SetStorage } from '@/data/protocols/cache';
 import { Todo } from '@/domain/models';
-import { MoveTodo } from '@/domain/usecases';
+import { SwapTodos } from '@/domain/usecases';
 
-export class LocalMoveTodo implements MoveTodo {
+export class LocalSwapTodos implements SwapTodos {
   constructor(private readonly getStorage: GetStorage, private readonly setStorage: SetStorage) {}
 
   invoke(id: number, newIndex: number): Promise<Todo[]> {

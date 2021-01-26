@@ -1,11 +1,11 @@
 import faker from 'faker';
 
 import { GetStorageSpy, SetStorageSpy } from '@/data/test';
-import { LocalMoveTodo } from '@/data/usecases';
+import { LocalSwapTodos } from '@/data/usecases';
 import { mockTodos } from '@/domain/test';
 
 type SutTypes = {
-  sut: LocalMoveTodo;
+  sut: LocalSwapTodos;
   setStorageSpy: SetStorageSpy;
   getStorageSpy: GetStorageSpy;
 };
@@ -15,7 +15,7 @@ const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy();
   getStorageSpy.value = mockTodos();
 
-  const sut = new LocalMoveTodo(getStorageSpy, setStorageSpy);
+  const sut = new LocalSwapTodos(getStorageSpy, setStorageSpy);
 
   return {
     sut,
@@ -24,7 +24,7 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('LocalMoveTodo', () => {
+describe('LocalSwapTodos', () => {
   test('Should call GetStorage and SetStorage with correct key', async () => {
     const { sut, getStorageSpy, setStorageSpy } = makeSut();
 
@@ -34,7 +34,7 @@ describe('LocalMoveTodo', () => {
     expect(setStorageSpy.key).toBe('todos');
   });
 
-  test('Should move todo to the new position', async () => {
+  test('Should swap todos', async () => {
     const { sut, setStorageSpy } = makeSut();
 
     const reorderedTodos = await sut.invoke(1, 1);
