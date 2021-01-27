@@ -2,8 +2,8 @@ import React from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import { FilterTodosStatus } from '@/domain/usecases';
-import { ListContainer, NoContent } from '@/presentation/components/list/list-styles';
-import { ListBottom, ListItem } from '@/presentation/components';
+import { ListContainer, Bottom, NoContent } from '@/presentation/components/list/list-styles';
+import { ListItem, ListStatusOptions } from '@/presentation/components';
 import { Todo } from '@/domain/models';
 
 type Props = {
@@ -55,12 +55,13 @@ const List: React.FC<Props> = ({
         </Droppable>
       </DragDropContext>
 
-      <ListBottom
-        currentStatus={currentStatus}
-        itemsLeft={todos.filter(todo => !todo.completed).length}
-        onStatusClick={onStatusClick}
-        onClearCompletedClick={onClearCompletedClick}
-      />
+      <Bottom>
+        <span data-testid="itemsLeft">{todos.filter(todo => !todo.completed).length} items left</span>
+        <ListStatusOptions currentStatus={currentStatus} onStatusClick={onStatusClick} />
+        <a data-testid="clearCompleted" onClick={() => onClearCompletedClick()}>
+          Clear completed
+        </a>
+      </Bottom>
     </ListContainer>
   );
 };
