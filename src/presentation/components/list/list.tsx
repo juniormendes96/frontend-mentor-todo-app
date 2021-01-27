@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautif
 
 import { FilterTodosStatus } from '@/domain/usecases';
 import { ListContainer, NoContent } from '@/presentation/components/list/list-styles';
-import { ListFooter, ListItem, ListStatusOptions } from '@/presentation/components';
+import { ListBottom, ListItem } from '@/presentation/components';
 import { Todo } from '@/domain/models';
 
 type Props = {
@@ -55,7 +55,7 @@ const List: React.FC<Props> = ({
         </Droppable>
       </DragDropContext>
 
-      <ListFooter
+      <ListBottom
         currentStatus={currentStatus}
         itemsLeft={todos.filter(todo => !todo.completed).length}
         onStatusClick={onStatusClick}

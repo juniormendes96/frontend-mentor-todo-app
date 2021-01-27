@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FilterTodosStatus } from '@/domain/usecases';
-import { ListFooterContainer } from '@/presentation/components/list-footer/list-footer-styles';
+import { ListBottomContainer } from '@/presentation/components/list-bottom/list-bottom-styles';
 import { ListStatusOptions } from '@/presentation/components';
 
 type Props = {
@@ -11,16 +11,16 @@ type Props = {
   onClearCompletedClick?: () => void;
 };
 
-const ListFooter: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
+const ListBottom: React.FC<Props> = ({ currentStatus, itemsLeft, onStatusClick = () => {}, onClearCompletedClick = () => {} }: Props) => {
   return (
-    <ListFooterContainer>
+    <ListBottomContainer>
       <span data-testid="itemsLeft">{itemsLeft} items left</span>
       <ListStatusOptions currentStatus={currentStatus} onStatusClick={onStatusClick} />
       <a data-testid="clearCompleted" onClick={() => onClearCompletedClick()}>
         Clear completed
       </a>
-    </ListFooterContainer>
+    </ListBottomContainer>
   );
 };
 
-export default ListFooter;
+export default ListBottom;

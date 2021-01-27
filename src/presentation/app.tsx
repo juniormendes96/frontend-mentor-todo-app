@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 import { ThemeProvider } from 'styled-components';
 
-import { List, ListFooter, ListInput, ListItem, ListStatusOptions } from '@/presentation/components';
+import { List, ListInput, ListStatusOptions } from '@/presentation/components';
 import { Body, Main } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
