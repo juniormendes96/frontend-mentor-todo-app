@@ -1,9 +1,18 @@
 import React from 'react';
 import faker from 'faker';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, RenderResult, screen } from '@testing-library/react';
+import { makeDnd, DND_DRAGGABLE_DATA_ATTR, DND_DIRECTION_UP } from 'react-beautiful-dnd-test-utils';
 
 import App from '@/presentation/app';
-import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy, SwapTodosSpy } from '@/domain/test';
+import {
+  RemoveTodoSpy,
+  ClearCompletedTodosSpy,
+  CreateTodoSpy,
+  ToggleTodoSpy,
+  FilterTodosSpy,
+  SwapTodosSpy,
+  mockTodos
+} from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from '@/presentation/test';
 import * as DarkModeAdapter from '@/main/adapters/dark-mode/dark-mode-adapter';
@@ -15,6 +24,7 @@ type SutTypes = {
   removeTodoSpy: RemoveTodoSpy;
   swapTodosSpy: SwapTodosSpy;
   clearCompletedTodosSpy: ClearCompletedTodosSpy;
+  renderResult: RenderResult;
 };
 
 type SutParams = {
@@ -28,7 +38,7 @@ const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): Sut
   const swapTodosSpy = new SwapTodosSpy();
   const clearCompletedTodosSpy = new ClearCompletedTodosSpy();
 
-  render(
+  const renderResult = render(
     <App
       filterTodos={filterTodosSpy}
       toggleTodo={toggleTodoSpy}
@@ -45,7 +55,8 @@ const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): Sut
     createTodoSpy,
     removeTodoSpy,
     swapTodosSpy,
-    clearCompletedTodosSpy
+    clearCompletedTodosSpy,
+    renderResult
   };
 };
 
@@ -287,5 +298,21 @@ describe('App', () => {
     expect(setDarkModeAdapterSpy).toHaveBeenCalledWith(false);
 
     await Helper.wait();
+  });
+
+  test('Should call SwapTodos usecase with correct values on drag/drop', async () => {
+    const filterTodosSpy = new FilterTodosSpy();
+    const todos = mockTodos();
+    filterTodosSpy.todos = todos;
+
+    const { swapTodosSpy, renderResult } = makeSut({ filterTodosSpy });
+
+    await Helper.wait();
+
+    await Helper.dragAndDrop(renderResult, todos[2].description, 'DND_DIRECTION_UP', 1);
+
+    expect(swapTodosSpy.callsCount).toBe(1);
+    expect(swapTodosSpy.id).toBe(3);
+    expect(swapTodosSpy.newPosition).toBe(1);
   });
 });

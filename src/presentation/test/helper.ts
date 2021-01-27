@@ -1,5 +1,6 @@
 import faker from 'faker';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, RenderResult, screen, waitFor } from '@testing-library/react';
+import { makeDnd, DND_DRAGGABLE_DATA_ATTR } from 'react-beautiful-dnd-test-utils';
 
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 
@@ -58,4 +59,18 @@ export const testStatusOptionsRendering = async (all: HTMLElement, active: HTMLE
   expect(all).toHaveStyle(activeStyle);
   expect(active).not.toHaveStyle(activeStyle);
   expect(completed).not.toHaveStyle(activeStyle);
+};
+
+export const dragAndDrop = async (
+  { getByText }: RenderResult,
+  todoDescription: string,
+  direction: 'DND_DIRECTION_UP' | 'DND_DIRECTION_DOWN',
+  positions: number
+): Promise<void> => {
+  await makeDnd({
+    getByText,
+    getDragEl: () => getByText(todoDescription).closest(DND_DRAGGABLE_DATA_ATTR),
+    direction,
+    positions
+  });
 };
