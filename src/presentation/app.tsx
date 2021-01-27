@@ -20,7 +20,8 @@ import {
   RemoveTodo,
   ClearCompletedTodos,
   FilterTodosStatus,
-  FilterTodosFilters
+  FilterTodosFilters,
+  SwapTodos
 } from '@/domain/usecases';
 
 type Props = {
@@ -28,6 +29,7 @@ type Props = {
   createTodo: CreateTodo;
   toggleTodo: ToggleTodo;
   removeTodo: RemoveTodo;
+  swapTodos: SwapTodos;
   clearCompletedTodos: ClearCompletedTodos;
 };
 
@@ -83,7 +85,17 @@ const App: React.FC<Props> = (props: Props) => {
     await filterTodosWithCurrentStatus();
   };
 
-  const onDragEnd = (result: DropResult, provided: ResponderProvided): void => {};
+  const onDragEnd = async ({ destination, draggableId }: DropResult): Promise<void> => {
+    if (!destination) {
+      return;
+    }
+
+    const id = Number(draggableId);
+    const newPosition = destination.index;
+
+    const reorderedTodos = await props.swapTodos.invoke(id, newPosition);
+    setState(old => ({ ...old, todos: reorderedTodos }));
+  };
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>

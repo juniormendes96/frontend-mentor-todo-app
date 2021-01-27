@@ -6,7 +6,8 @@ import {
   makeLocalCreateTodo,
   makeLocalToggleTodo,
   makeLocalRemoveTodo,
-  makeLocalClearCompletedTodos
+  makeLocalClearCompletedTodos,
+  makeLocalSwapTodos
 } from '@/main/factories/usecases';
 
 export const makeApp = (): ReactElement => {
@@ -16,6 +17,7 @@ export const makeApp = (): ReactElement => {
       createTodo={makeLocalCreateTodo()}
       toggleTodo={makeLocalToggleTodo()}
       removeTodo={makeLocalRemoveTodo()}
+      swapTodos={makeLocalSwapTodos()}
       clearCompletedTodos={makeLocalClearCompletedTodos()}
     />
   );

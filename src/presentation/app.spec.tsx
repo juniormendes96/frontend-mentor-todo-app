@@ -3,7 +3,7 @@ import faker from 'faker';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import App from '@/presentation/app';
-import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy } from '@/domain/test';
+import { RemoveTodoSpy, ClearCompletedTodosSpy, CreateTodoSpy, ToggleTodoSpy, FilterTodosSpy, SwapTodosSpy } from '@/domain/test';
 import { FilterTodosStatus } from '@/domain/usecases';
 import { Helper } from '@/presentation/test';
 import * as DarkModeAdapter from '@/main/adapters/dark-mode/dark-mode-adapter';
@@ -13,6 +13,7 @@ type SutTypes = {
   createTodoSpy: CreateTodoSpy;
   toggleTodoSpy: ToggleTodoSpy;
   removeTodoSpy: RemoveTodoSpy;
+  swapTodosSpy: SwapTodosSpy;
   clearCompletedTodosSpy: ClearCompletedTodosSpy;
 };
 
@@ -24,6 +25,7 @@ const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): Sut
   const toggleTodoSpy = new ToggleTodoSpy();
   const createTodoSpy = new CreateTodoSpy();
   const removeTodoSpy = new RemoveTodoSpy();
+  const swapTodosSpy = new SwapTodosSpy();
   const clearCompletedTodosSpy = new ClearCompletedTodosSpy();
 
   render(
@@ -32,6 +34,7 @@ const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): Sut
       toggleTodo={toggleTodoSpy}
       createTodo={createTodoSpy}
       removeTodo={removeTodoSpy}
+      swapTodos={swapTodosSpy}
       clearCompletedTodos={clearCompletedTodosSpy}
     />
   );
@@ -41,6 +44,7 @@ const makeSut = ({ filterTodosSpy = new FilterTodosSpy() }: SutParams = {}): Sut
     toggleTodoSpy,
     createTodoSpy,
     removeTodoSpy,
+    swapTodosSpy,
     clearCompletedTodosSpy
   };
 };
