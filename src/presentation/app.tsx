@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 import { ThemeProvider } from 'styled-components';
 
-import { ListFooter, ListInput, ListItem, ListStatusOptions } from '@/presentation/components';
-import { Body, Main, ListContainer, NoContent } from '@/presentation/app-styles';
+import { List, ListFooter, ListInput, ListItem, ListStatusOptions } from '@/presentation/components';
+import { Body, Main } from '@/presentation/app-styles';
 import { darkTheme, lightTheme } from '@/presentation/styles/themes';
 import { GlobalStyles } from '@/presentation/styles/global-styles';
 
@@ -85,14 +85,7 @@ const App: React.FC<Props> = (props: Props) => {
     await filterTodosWithCurrentStatus();
   };
 
-  const onDragEnd = async ({ destination, draggableId }: DropResult): Promise<void> => {
-    if (!destination) {
-      return;
-    }
-
-    const id = Number(draggableId);
-    const newPosition = destination.index;
-
+  const swapTodos = async (id: number, newPosition: number): Promise<void> => {
     const reorderedTodos = await props.swapTodos.invoke(id, newPosition);
     setState(old => ({ ...old, todos: reorderedTodos }));
   };
@@ -119,30 +112,15 @@ const App: React.FC<Props> = (props: Props) => {
             onCheckboxChange={checked => setState(old => ({ ...old, currentCompletedOption: checked }))}
             placeholder="Create a new todo..."
           />
-          <ListContainer data-testid="listContainer">
-            {!state.todos.length && <NoContent data-testid="noContent">There are no todos to show.</NoContent>}
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable">
-                {provided => (
-                  <ul {...provided.droppableProps} ref={provided.innerRef} data-testid="list">
-                    {state.todos.map((todo, index) => (
-                      <Draggable key={todo.id} draggableId={String(todo.id)} index={index}>
-                        {provided => <ListItem key={todo.id} todo={todo} onRemove={removeTodo} onToggle={toggleTodo} provided={provided} />}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
-
-            <ListFooter
-              currentStatus={state.currentStatus}
-              itemsLeft={state.todos.filter(todo => !todo.completed).length}
-              onStatusClick={status => filterTodos({ status })}
-              onClearCompletedClick={clearCompletedTodos}
-            />
-          </ListContainer>
+          <List
+            todos={state.todos}
+            currentStatus={state.currentStatus}
+            onToggle={toggleTodo}
+            onRemove={removeTodo}
+            onStatusClick={status => filterTodos({ status })}
+            onSwap={swapTodos}
+            onClearCompletedClick={clearCompletedTodos}
+          />
           <footer>
             <ListStatusOptions currentStatus={state.currentStatus} onStatusClick={status => filterTodos({ status })} />
           </footer>
