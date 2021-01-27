@@ -10,11 +10,11 @@ import { Todo } from '@/domain/models';
 type Props = {
   todo: Todo;
   provided: DraggableProvided;
-  onRemove?: (todoId: number) => void;
-  onToggle?: (todoId: number) => void;
+  onRemove: (todoId: number) => void;
+  onToggle: (todoId: number) => void;
 };
 
-const ListItem: React.FC<Props> = ({ todo, provided, onToggle = () => {}, onRemove = () => {} }: Props) => {
+const ListItem: React.FC<Props> = ({ todo, provided, onToggle, onRemove }: Props) => {
   const checkboxId = `checkbox-${todo.id}`;
 
   return (

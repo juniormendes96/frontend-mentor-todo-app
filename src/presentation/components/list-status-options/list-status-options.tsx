@@ -5,10 +5,10 @@ import { ListStatusOptionsContainer, StatusOption } from '@/presentation/compone
 
 type Props = {
   currentStatus: FilterTodosStatus;
-  onStatusClick?: (status: FilterTodosStatus) => void;
+  onStatusClick: (status: FilterTodosStatus) => void;
 };
 
-const ListStatusOptions: React.FC<Props> = ({ currentStatus, onStatusClick = () => {} }: Props) => {
+const ListStatusOptions: React.FC<Props> = ({ currentStatus, onStatusClick }: Props) => {
   return (
     <ListStatusOptionsContainer>
       <StatusOption data-testid="all" active={currentStatus === FilterTodosStatus.ALL} onClick={() => onStatusClick(FilterTodosStatus.ALL)}>

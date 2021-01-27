@@ -9,23 +9,14 @@ import { Todo } from '@/domain/models';
 type Props = {
   todos: Todo[];
   currentStatus: FilterTodosStatus;
-  onStatusClick?: (status: FilterTodosStatus) => void;
-  onClearCompletedClick?: () => void;
-  onRemove?: (todoId: number) => void;
-  onToggle?: (todoId: number) => void;
-  onDragEnd?: (dropResult: DropResult) => void;
-  onSwap?: (id: number, newPosition: number) => void;
+  onStatusClick: (status: FilterTodosStatus) => void;
+  onClearCompletedClick: () => void;
+  onRemove: (todoId: number) => void;
+  onToggle: (todoId: number) => void;
+  onSwap: (id: number, newPosition: number) => void;
 };
 
-const List: React.FC<Props> = ({
-  todos,
-  currentStatus,
-  onStatusClick = () => {},
-  onClearCompletedClick = () => {},
-  onRemove = () => {},
-  onToggle = () => {},
-  onSwap = () => {}
-}: Props) => {
+const List: React.FC<Props> = ({ todos, currentStatus, onStatusClick, onClearCompletedClick, onRemove, onToggle, onSwap }: Props) => {
   const onDragEnd = ({ destination, draggableId }: DropResult): void => {
     if (!destination) {
       return;
