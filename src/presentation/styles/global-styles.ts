@@ -17,9 +17,4 @@ export const GlobalStyles = createGlobalStyle`
       font-size: 50%;
     }
   }
-
-  body {
-    height: 100vh;
-    width: 100vw;
-  }
 `;

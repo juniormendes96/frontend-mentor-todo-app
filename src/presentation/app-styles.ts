@@ -26,7 +26,7 @@ export const Main = styled.main`
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2.5rem;
-  height: 70vh;
+  height: 78vh;
   width: 40vw;
 
   @media (max-width: ${large}) {
@@ -41,7 +41,7 @@ export const Main = styled.main`
     height: 85vh;
   }
 
-  header {
+  & > header {
     display: flex;
     justify-content: space-between;
 
@@ -59,7 +59,7 @@ export const Main = styled.main`
     }
   }
 
-  footer {
+  & > footer {
     display: none;
     height: 7rem;
     align-items: center;
@@ -72,5 +72,12 @@ export const Main = styled.main`
     @media (max-width: ${small}) {
       display: flex;
     }
+  }
+
+  & > span {
+    font-size: 1.8rem;
+    color: ${({ theme }) => theme.textDisabled};
+    text-align: center;
+    margin-top: 3rem;
   }
 `;

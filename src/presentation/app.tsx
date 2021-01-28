@@ -123,6 +123,7 @@ const App: React.FC<Props> = (props: Props) => {
           <footer>
             <ListStatusOptions currentStatus={state.currentStatus} onStatusClick={status => filterTodos({ status })} />
           </footer>
+          <span>Drag and drop to reorder list</span>
         </Main>
       </Body>
     </ThemeProvider>
