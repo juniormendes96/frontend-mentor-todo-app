@@ -22,7 +22,7 @@ export const Body = styled.div<{ darkMode: boolean }>`
   }
 `;
 
-export const Main = styled.main`
+export const Main = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2.5rem;
