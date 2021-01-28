@@ -12,7 +12,7 @@ const ListInput: React.FC<Props> = ({ checked = false, onCheckboxChange = () => 
   return (
     <ListInputContainer>
       <Checkbox checked={checked} onChange={event => onCheckboxChange(event.target.checked)} />
-      <input data-testid="input" type="text" {...props} />
+      <input data-testid="input" aria-label="Create a new todo input" type="text" {...props} />
     </ListInputContainer>
   );
 };
